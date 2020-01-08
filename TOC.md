@@ -1,52 +1,24 @@
 # API Introduction
 
 # Plugin Framework Overview
-
 # The Basics
 
 ## Framework elements
   * PgFramework()
-  * key  
-  * name  
-  * show_in_action_tab  
-  * detect  
-  * component_types  
-  * default  
-  * lib_sections  
-  * actions_section  
-  * ignore_css_files  
-  * type  
-  * allow_single_type  
-  * pluginUrl  
-  * on_get_source  
-  * user_lib  
-  * changed  
-  * not_main_types  
-  * product  
-  * trial  
-  * trial_start_message  
-  * trial_expired_message  
-  * common_sections  
-  * script_url  
-  * description  
-  * author  
-  * author_link  
-  * has_action  
-  * info_badge  
-  * auto_updatable  
-  * order  
-  * page_libs  
-  * quick_actions  
-  * show_in_manager  
-  * preview_images_base  
-  * resources  
-  * resources_name  
-  * customResourceNamespace  
-  * ordered_list  
-  * ordered  
-  * types_map  
-  * defs_that_filter_tree  
-  * has_types_that_filter_tree  
+  * addFramework()
+  * type
+  * allow_single_type
+  * description
+  * author
+  * author_link
+  * info_badge
+  * ignore_css_files
+  * addLibSection()
+  * addActionsSection()
+  * has_actions?
+  * getActionTypes?
+  * detect?
+
 
 
 ## Property Types
@@ -104,25 +76,23 @@
 ## Helper Functions
 
 ### Framework Helpers
-  * PgResourcesList()  
-  * CrsaProject()  
-  * setScriptFileByScriptTagId()  
-  * showAlert()  
-  * getCurrentProject()  
-  * getAllCrsaStylesheets()
-  * getStylesheetByUrl()
-  * getStylesheetByFileName()
   * addTemplateProjectFromResourceFile()
-  * setUrlStylesheetForOverrides()
+  * setScriptFileByScriptTagId()
+  * PgComponentTypeResource()
   * getResourceFile()
+  * getResourceUrl()
+  * getCurrentProject()
+  * showAlert()  
+  * showQuickMessage()
   * toLocalPath()
-  * getSelectedPage()
   * getMimeType()
-  * getSimpleMimeType()
-  * PgEditableAreaExtension()
+  * copyFilesToProject()?
+  * refreshCurrentProject()?
 
 ### Component Helpers
-  * pgCreateNodeFromHtml
+  * PgComponentType()
+  * setComponentTypes()
+  * addComponentType()
 # Advanced Topics
 
 ## Conditionals
@@ -132,14 +102,21 @@
   * registerInputField()
   * showInputField()
   * addActionsSection()
+  * PgToggleButtonMaker()
 ## Menu additions and hooks
   * addPluginControlToTopbar()
   * on_page_menu
   * 
 ## Stylesheet manipulation  
-
+  * getAllCrsaStylesheets()?
+  * PgSCSSStyleSheet()
+  * PgLESSStylesheet()
+  * removeExistingStylesheet()
+  * 
 ### List of important windows variables?  
 ### List of available Node modules?
+  * fs
+  * path
 ### List of NW.js hooks
   * nw.gui
     * showDevTools
