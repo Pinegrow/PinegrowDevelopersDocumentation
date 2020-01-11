@@ -1,8 +1,13 @@
 # API Introduction
 
 # Plugin Framework Overview
+  * Use cases
+    * Component addition
+    * Framework addition
+    * Workflow customization
+    * Static CMS extension
 # The Basics
-
+  * Getting started  
 ## Framework elements
   * PgFramework()
   * addFramework()
