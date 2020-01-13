@@ -60,8 +60,8 @@ This key takes a short string that will be displayed when creating a new page us
 ```javascript
 framework.info_badge = 'v1.0';
 ```
-This descriptor information will only be displayed when creating a plugin that adds a template for the user to select when starting a new page or project. It will not be displayed if the plugin only adds HTML snippets, actions, modifies workflow, or adds to the CMS. 
-https://www.dropbox.com/s/ljlhhibiru6ff34/Screenshot%202020-01-13%2006.26.58.png?dl=0
+As shown below, this descriptor information will only be displayed when creating a plugin that adds a template for the user to select when starting a new page or project. It will not be displayed if the plugin only adds HTML snippets, actions, modifies workflow, or adds to the CMS. 
+![Descriptors](./Images/Descriptors.png)
 
 <a name="fhc"></a>
 ## Framework Helpers and Constructors  
