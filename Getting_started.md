@@ -68,10 +68,32 @@ As shown below, this descriptor information will only be displayed when creating
 Once your framework has been instantiated with descriptors there are a number of additional helpers and constructors made available through the API. Depending on the use-case only some of these may be needed. The most germane of these are listed below, with a short description of use case, arguments list, and example.  
 
 ### addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )
-
 This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
-- template_folder  
-
+To utilize this in a plugin, create a folder that contains each template file, potentially a CSS file with the same name as the accompanying template file, plus an additional subfolder that must be named screenshots and contain an image to display to the user. Each image must have the same name as the template file.  
+The folder can also contain a subfolder of resources to be used with the templates.
+![template folder example](./Images/folder_structure.png)  
+Arguments
+- template_folder - the source of the template folder relative to the main plugin file
+- done - typically passed null, primarily for internal use, can take boolean
+- index - determines the order of framework display - typically set to 100 or higher to add the plugin framework at the end
+- filter_func - receives a function that can edit the files added to the template - usually not used
+- skip_add_to_template - internal development use
+- absolute_folder - internal development use
+ ```javascript
+framework.addTemplateProjectFromResourceFolder ('./template', null, 100);
+```
+  
+### ignore_css_files
+This key is used if the plugin is adding a template including customized CSS files that shouldn't be altered. It receives an object containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing.
+Single string
+```javascript
+framework.ignore_css_files = [/my_plugin_style\.css/i];
+```
+multiple regex strings
+```javascript
+framework.ignore_css_files = [/my_plugin_style\.css/i, /my_other_styling\.css/i];
+```
+### getResourceFile
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
