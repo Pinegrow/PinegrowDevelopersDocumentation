@@ -60,8 +60,17 @@ This key takes a short string that will be displayed when creating a new page us
 ```javascript
 framework.info_badge = 'v1.0';
 ```
+This descriptor information will only be displayed when creating a plugin that adds a template for the user to select when starting a new page or project. It will not be displayed if the plugin only adds HTML snippets, actions, modifies workflow, or adds to the CMS. 
+https://www.dropbox.com/s/ljlhhibiru6ff34/Screenshot%202020-01-13%2006.26.58.png?dl=0
+
 <a name="fhc"></a>
 ## Framework Helpers and Constructors  
+Once your framework has been instantiated with descriptors there are a number of additional helpers and constructors made available through the API. Depending on the use-case only some of these may be needed. The most germane of these are listed below, with a short description of use case, arguments list, and example.  
+
+### addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )
+
+This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
+- template_folder  
 
 <a name="fch"></a>
 ## Framework CMS Helpers  

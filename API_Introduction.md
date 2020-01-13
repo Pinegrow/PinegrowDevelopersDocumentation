@@ -15,10 +15,10 @@ In addition to adding content, the plugin API also allows for adding additional 
 1) **Component and Block Addition**  
    A common plugin for Pinegrow is a framework that adds new components to the library without accompanying properties or actions. Note: Pinegrow already contains an extensive set of property controls for most common HTML elements.
 2) **Framework Addition**  
-   This type of plugin adds not only components, but accompanying properties or actions that modify those components. Pinegrow ships with several Framework systems, including Bootstrap, that add both HTML snippets and extensive properties.
+   This type of plugin adds not only components, but accompanying properties or actions that modify those components, such as adding classes or attributes. Note: Pinegrow ships with several Framework systems, including Bootstrap, that add both HTML snippets and extensive properties and actions.
 3) **Workflow Customization**  
    ?????Have to work on this - still not sure what people are doing as far as workflow.
 4) **Streamline CMS template production**  
-   This type of plugin can automate definition of editable areas, or populate new template pages with common code.
+   This type of plugin can automate definition of editable areas, or populate new template pages with common code. Note: Pinegrow ships with an extensive CMS system
 
    While these are common use cases, there is no reason that a single plugin can't incorporate multiple functions.
