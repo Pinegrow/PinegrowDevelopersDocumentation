@@ -93,7 +93,17 @@ multiple regex strings
 ```javascript
 framework.ignore_css_files = [/my_plugin_style\.css/i, /my_other_styling\.css/i];
 ```
-### getResourceFile
+### PgComponentTypeResource ( resource_url, code )
+The PGComponentTypeResource constructor is used to add javascript and CSS files to a project. In addition to the two arguments that can be passed at instantiation, it can accept a number of additional key:value pairs.  
+| key | value |
+| ----| ---- |
+| detect | regex string - determine if  |
+| footer | boolean - determines whether the item should be added to the head or the bottom of the body |
+| project |  |
+| isFolder | |
+| source | |
+| relative_url | |
+|replace| |
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
