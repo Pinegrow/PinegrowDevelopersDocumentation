@@ -97,13 +97,40 @@ framework.ignore_css_files = [/my_plugin_style\.css/i, /my_other_styling\.css/i]
 The PGComponentTypeResource constructor is used to add javascript and CSS files to a project. In addition to the two arguments that can be passed at instantiation, it can accept a number of additional key:value pairs.  
 | key | value |
 | ----| ---- |
-| detect | regex string - determine if  |
-| footer | boolean - determines whether the item should be added to the head or the bottom of the body |
-| project |  |
-| isFolder | |
-| source | |
-| relative_url | |
-|replace| |
+| type | mime type - this allows the Pinegrow app to determine the correct way to embed the file on the HTML page, \<script> and src for JavaScript, or \<link> and href for CSS. Automatically set to correct mime type by lookup.
+| detect | regex string - determine if another file (like jQuery) exists on the page -- typically not used |
+| footer | boolean - determines whether the item should be added to the head or the bottom of the body -- default: false |
+| project | internal use only |
+| isFolder | boolean - used to indicate if the resource is a folder or not -- default: false|
+| source | url - typically the same as the resource_url, in some cases need to be converted to system path seperators using the Node.js [path.sep](https://nodejs.org/api/path.html#path_path_sep) -- default: null|
+| relative_url | resource file location relative to the template -- default: null |
+|replace| boolean (or function returning boolean) If .detect is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically not used|
+Following creation and addition of key:value pairs, the new resource object is returned as a value to the framework in the "resources" key.
+```javascript
+framework.resources.add(new_resource)
+```
+
+Typical example code using file structure from above.
+```javascript
+var path = require( 'path' );
+var toLocalPath = function(file_path) {
+    return file_path.replace(/\//g, path.sep)
+};
+var resource_files = [
+		'css/my-style.css',
+		'js/my-js.js'
+	];
+resource_files.forEach(function (resource_file) {
+		var file = framework.getResourceFile('template/resources/' + resource_file);
+		var resource = new PgComponentTypeResource(file);
+		resource.relative_url = resource_file;
+		resource.source = toLocalPath(file);
+		resource.footer = resource_file.indexOf('.js') >= 0;
+		resource.type = resource_file.indexOf('.js') >= 0 ? 'application/javascript' : 'text/css';
+		framework.resources.add(resource);
+	});
+```
+
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
