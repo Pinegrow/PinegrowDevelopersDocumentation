@@ -95,6 +95,7 @@ framework.ignore_css_files = [/my_plugin_style\.css/i, /my_other_styling\.css/i]
 ```
 ### PgComponentTypeResource ( resource_url, code )
 The PGComponentTypeResource constructor is used to add javascript and CSS files to a project. In addition to the two arguments that can be passed at instantiation, it can accept a number of additional key:value pairs.  
+
 | key | value |
 | ----| ---- |
 | type | mime type - this allows the Pinegrow app to determine the correct way to embed the file on the HTML page, \<script> and src for JavaScript, or \<link> and href for CSS. Automatically set to correct mime type by lookup.
