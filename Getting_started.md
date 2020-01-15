@@ -22,7 +22,7 @@ Within the body of the plugin, a new framework object is created using the 'PgFr
 ```javascript
 var framework = new PgFramework(type_prefix, name);
 ``` 
-This framework variable can then be populated with a variety of key:value pairs. Some of these pairs are informational, like 'framework.author', which will be displayed to the end user, or give parameters to the Pinegrow App about how the plugin is supposed to be managed or displayed. The most important of these are listed below in the section [**framework descriptive elements**](#fde). Other pairs add the individual library components, items to the property panel, or actions panel. The most important of these are listed below in the section [**framework helpers and constructors**](#fhc). A third category of key:value pairs control the actions of the CMS and are listed below in the section [**framework CMS helpers**](#fch).  
+This framework variable can then be populated with a variety of key:value pairs. Some of these pairs are informational, like ```framework.author```, which will be displayed to the end user, or give parameters to the Pinegrow App about how the plugin is supposed to be managed or displayed. The most important of these are listed below in the section [**framework descriptive elements**](#fde). Other pairs add the individual library components, items to the property panel, or actions panel. The most important of these are listed below in the section [**framework helpers and constructors**](#fhc). A third category of key:value pairs control the actions of the CMS and are listed below in the section [**framework CMS helpers**](#fch).  
 Typically, the descriptive key:value pairs for the framework are defined prior to returning the new object to the Pinegrow App using the 'addFramework()' function.
 ```javascript
 pinegrow.addFramework(framework);
@@ -134,10 +134,32 @@ resource_files.forEach(function (resource_file) {
 ```
 ## Creating Components  
 ### Overview  
-HTML components or snippets are created using the ``` PgComponentType ``` constructor and the ``` addComponentType ``` key. They are then added to the Pinegrow App using the ``` PgFrameworkLibSection ``` constructor, ``` setComponentTypes ``` key, and ``` addLibSection ``` key.
+The ``` PgComponentType ``` constructor is the main way to add new snippets, property controls, and actions to the Pinegrow App. These objects can be broken down into three sections.
+  1) A main body that contains key:value pairs that contain the optional HTML snippet, give information on how to identify the component for property controls or actions to target on the page, and how to display the element on the tree.  
+  2) Sections identify one or more groups of property controls or actions
+  3) Fields are individual property controls or actions
+  
+  How these components are added to the Pinegrow App depend on component type. For components that add property controls only, the component is added to the framework object using ```addComponentType```.
+  ```javascript
+  var my_property_control = new PgComponentType( 'pg_my_control', 'My Control, {...} );
+  framework.addComponentType(my_property_control);
+  ```
+  
+  For components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.
+  ```javascript
+  var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
+  pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
+  framework.addLibSection(pg_custom_lib_section);
+  ```
+  or
+  ```javascript
+  var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
+  pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
+  framework.addActionsSection(pg_custom_lib_section);
+  ```
 
 ### PgComponentType(unique_id, Display_name, {options} )
-
+This component can be used to either 
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
