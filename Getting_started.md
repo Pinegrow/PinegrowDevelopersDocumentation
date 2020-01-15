@@ -70,7 +70,7 @@ Once your framework has been instantiated with descriptors there are a number of
 ### addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )
 This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
 To utilize this in a plugin, create a folder that contains each template file, potentially a CSS file with the same name as the accompanying template file, plus an additional subfolder that must be named screenshots and contain an image to display to the user. Each image must have the same name as the template file.  
-The folder can also contain a subfolder of resources to be used with the templates.
+The folder can also contain a subfolder of resources to be used with the templates.  
 ![template folder example](./Images/folder_structure.png)  
 Arguments
 - template_folder - the source of the template folder relative to the main plugin file
@@ -106,6 +106,7 @@ The PGComponentTypeResource constructor is used to add javascript and CSS files 
 | source | url - typically the same as the resource_url, in some cases need to be converted to system path seperators using the Node.js [path.sep](https://nodejs.org/api/path.html#path_path_sep) -- default: null|
 | relative_url | resource file location relative to the template -- default: null |
 |replace| boolean (or function returning boolean) If .detect is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically not used|
+
 Following creation and addition of key:value pairs, the new resource object is returned as a value to the framework in the "resources" key.
 ```javascript
 framework.resources.add(new_resource)
@@ -131,6 +132,11 @@ resource_files.forEach(function (resource_file) {
 		framework.resources.add(resource);
 	});
 ```
+## Creating Components  
+### Overview  
+HTML components or snippets are created using the ``` PgComponentType ``` constructor and the ``` addComponentType ``` key. They are then added to the Pinegrow App using the ``` PgFrameworkLibSection ``` constructor, ``` setComponentTypes ``` key, and ``` addLibSection ``` key.
+
+### PgComponentType(unique_id, Display_name, {options} )
 
 <a name="fch"></a>
 ## Framework CMS Helpers  
