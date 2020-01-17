@@ -135,7 +135,7 @@ resource_files.forEach(function (resource_file) {
 ## Creating Components  
 ### Overview  
 The ``` PgComponentType ``` constructor is the main way to add new snippets, property controls, and actions to the Pinegrow App. These objects can be broken down into three sections.
-  1) A main body that contains key:value pairs that contain the optional HTML snippet, give information on how to identify the component for property controls or actions to target on the page, and how to display the element on the tree.  
+  1) A main body that contains key:value pairs that contain the optional HTML snippet, give information on how to identify the component for property controls or actions to target on the page, and data on how to display the element on the tree.  
   2) Sections identify one or more groups of property controls or actions
   3) Fields are individual property controls or actions
   
@@ -158,8 +158,64 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
   framework.addActionsSection(pg_custom_lib_section);
   ```
 
-### PgComponentType(unique_id, Display_name, {options} )
-This component can be used to either 
+### PgComponentType(unique_id, display_name, {options} )
+This constructor is passed three arguments.
+
+ 1) A unique id. It is best practice to add a plugin specific prefix to the id to minimize potential conflict with other plugins. 
+ 2) A name that is displayed in the library or actions tab.
+ 3) An object that contains the HTML, controls, and or actions.
+
+ #### Main Body Options
+
+**selector**  
+This key receives either a CSS selector or function that uniquely identifies the element being created or controlled. This key is required.  
+An example of a simple selector to target any page element with an attribute of 'pg-table'
+```javascript
+selector: '[pg-table]',
+```
+A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the Document.
+```javascript
+selector: function(pgel) {
+	if (['html', 'body', 'head', 'script'].includes(pgel.tagName)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+```
+**priority**  
+Determines the order in which an action or property control component will display in the panel. The default is 1000. This key is optional.  
+
+**code**  
+This key receives any reusable snippet - HTML, Javascript, PHP. This key is optional. If you are putting together a component consisting of controls or actions only it doesn't need to be added.  
+```javascript
+code: '<h2>The title of this article is <?php the_title(); ?>.</h2>',
+```
+**preview**  
+This key receives a function that returns HTML representing what will be shown if the user hovers over the snippet in the library. This code is automatically generated from the ```code``` key:value pair. However, in the case of elements such as containers or rows it is useful to have a visual representation. This key is optional.
+```javascript
+Other component code...
+preview: getGridPreview('container'),
+remainder of component code...
+
+var getGridPreview = function(type) {
+		return '<div class="container-fluid" style="border:2px solid #0098cc;">\
+			<div class="row">\
+				<div>One</div>\
+				<div>Two</div>\
+				<div>Three</div>\
+			</div>\
+			<div class="row">\
+				<div>One</div>\
+				<div>Two</div>\
+				<div>Three</div>\
+			</div>\
+		</div>';
+	}
+	}
+```
+This code results in the following being displayed when the user hovers over the element in the Library panel.  
+![Image displayed on element hover](Images/Preview.png)
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
