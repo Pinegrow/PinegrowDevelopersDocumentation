@@ -18,7 +18,7 @@ function myFunctionName(pinegrow){
     //plugin body
 };
 ```
-Within the body of the plugin, a new framework object is created using the 'PgFramework' constructor and passing in a unique type that will be prefixed internally, along with a name for the framework.
+Within the body of the plugin, a new framework object is created using the ```PgFramework``` constructor and passing in a unique type that will be prefixed internally, along with a name for the framework.
 ```javascript
 var framework = new PgFramework(type_prefix, name);
 ``` 
@@ -165,7 +165,8 @@ This constructor is passed three arguments.
  2) A name that is displayed in the library or actions tab.
  3) An object that contains the HTML, controls, and or actions.
 
- #### Main Body Options
+The options object can be further split into key:value pairs that provide the main body of the component, a section object that organizes all of the controls or actions, a set of field objects within the sections object that contain the key:value pairs that describe each control or action.  
+ #### Main Body Key:Value Pairs  
 
 **selector**  
 This key receives either a CSS selector or function that uniquely identifies the element being created or controlled. This key is required.  
@@ -183,6 +184,9 @@ selector: function(pgel) {
 	}
 }
 ```
+**parent_selector**  
+## I think I need some help on this one. ?deprecated? only for certain elements?  
+
 **priority**  
 Determines the order in which an action or property control component will display in the panel. The default is 1000. This key is optional.  
 
@@ -195,27 +199,62 @@ code: '<h2>The title of this article is <?php the_title(); ?>.</h2>',
 This key receives a function that returns HTML representing what will be shown if the user hovers over the snippet in the library. This code is automatically generated from the ```code``` key:value pair. However, in the case of elements such as containers or rows it is useful to have a visual representation. This key is optional.
 ```javascript
 Other component code...
-preview: getGridPreview('container'),
+    preview: getGridPreview('container'),
 remainder of component code...
 
 var getGridPreview = function(type) {
-		return '<div class="container-fluid" style="border:2px solid #0098cc;">\
+	var white = 'height: 20px;';
+	var blue = 'height: 20px; background-color: #D8E5F2;';
+		return '<div class="container-fluid" style="border:2px solid #0098cc; height: 120px;">\
 			<div class="row">\
-				<div>One</div>\
-				<div>Two</div>\
-				<div>Three</div>\
+				<div style="' + white + '"></div>\
+				<div style="' + blue + '"></div>\
+				<div style="' + white + '"></div>\
 			</div>\
 			<div class="row">\
-				<div>One</div>\
-				<div>Two</div>\
-				<div>Three</div>\
+				<div style="' + white + '"></div>\
+				<div style="' + blue + '"></div>\
+				<div style="' + white + '"></div>\
 			</div>\
 		</div>';
 	}
-	}
 ```
 This code results in the following being displayed when the user hovers over the element in the Library panel.  
-![Image displayed on element hover](Images/Preview.png)
+![Image displayed on element hover](Images/Preview.png)  
+Note: If the ```code``` key has a value it will be appended to the preview HTML.  
+
+#### Section Set-up and Key:Value Pairs  
+The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to prefix the unique name of each section to insure it doesn't conflict with another plugin.  
+
+Basic ```section``` structure
+```javascript
+sections: {
+	pg_unique_name_one: {
+		name: 'Displayed Control Name One',
+		default_closed: true, \\optional
+		fields:{...},
+	},
+	pg_unique_name_two: {
+		name: 'Displayed Control Name Two',
+		default_closed: false, \\optional
+		fields: {...},
+	}
+}
+```  
+Properties Panel from the above code when element is selected
+![Output for sections example.](Images/Section_example.png)  
+
+ **name**  
+ This key takes a name that will be displayed in the properties or actions panel. Note that alongside this name the Pinegrow App will list the source of the control or action. 
+
+ **default_closed**  
+ This key receives a boolean. If set to true, the resulting section will be closed by default on first display. This key is optional.  
+
+ **fields**  
+ This key is again an object of objects. Each individual object is a control or action.
+
+ #### Fields Key:Value Pairs  
+
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
