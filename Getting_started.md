@@ -273,7 +273,40 @@ Properties Panel from the above code when element is selected
  **fields**  
  This key is again an object of objects. Each individual object is a control or action.
 
+ #### Fields Overview  
+ Each field is a property control or action that modifies the element identified on the page by the main ```selector``` key. There are a number of built-in controls, such as checkboxes and drop-downs, but custom controls can also be built using API helpers. There are also several built-in actions, such as adding classes or attributes, but once again it is easy to build your own actions.  
+ The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique name as key, with an object containing a number of key:value pairs.  
+ Basic fields structure
+ ```javascript
+ fields: {
+	 field_one: {
+		 ...
+	 },
+	 field_two: {
+		 ...
+	 }
+ }
+ ```
  #### Fields Key:Value Pairs  
+
+ **type**
+ This key takes a value that tells Pinegrow what type of control to display. The Pinegrow API has four main types built in:  
+
+ | Type | Output |
+ |----|----|
+ | checkbox| Displays a checkbox - basic boolean control
+ | select | Displays a dropdown for selecting from a list of options
+ | text | Displays a textbox to receive any text
+ | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
+
+In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key.
+
+**name**  
+This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
+
+**action**  
+This key identifies what action Pinegrow should take when the user makes a selection with the control.
+
 
 <a name="fch"></a>
 ## Framework CMS Helpers  
