@@ -29,7 +29,8 @@ pinegrow.addFramework(framework);
 ```
 
 <a name="fde"></a>
-## Framework Descriptive Elements  
+## Framework Descriptive Elements
+___  
 ### __type__
 This key takes a unique value identifying the framework - usually the same as the type_prefix passed into the framework. Defaults to the passed in type_prefix.
 ```javascript
@@ -82,7 +83,8 @@ As shown below, this descriptor information will only be displayed when creating
 
 
 <a name="fhc"></a>
-## Framework Helpers and Constructors  
+## Framework Helpers and Constructors
+___  
 Once your framework has been instantiated with descriptors there are a number of additional helpers and constructors made available through the API. Depending on the use-case only some of these may be needed. The most germane of these are listed below, with a short description of use case, arguments list, and example.  
 
 ### __addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )__
@@ -132,7 +134,7 @@ Following creation and addition of key:value pairs, the new resource object is r
 framework.resources.add(new_resource)
 ```
 
-Typical example code using file structure from above.
+Typical example code using file structure from above and including an example of using node.js ```path```.
 ```javascript
 var path = require( 'path' );
 var toLocalPath = function(file_path) {
@@ -165,13 +167,15 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
   framework.addComponentType(my_property_control);
   ```
   
-  For components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.
+  For components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.  
+  Library panel addition example
   ```javascript
   var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
   pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
   framework.addLibSection(pg_custom_lib_section);
   ```
-  or
+  or  
+  Action panel addition example
   ```javascript
   var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
   pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
@@ -186,15 +190,16 @@ This constructor is passed three arguments.
  3) An object that contains the HTML, controls, and or actions.
 
 The options object can be further split into key:value pairs that provide the main body of the component, a section object that organizes all of the controls or actions, a set of field objects within the sections object that contain the key:value pairs that describe each control or action.  
- #### Main Body Key:Value Pairs  
+ #### Main Body Key:Value Pairs
+ ___  
 
 **selector**  
-This key receives either a CSS selector or function that uniquely identifies the element being created or controlled. This key is required.  
+This key receives either a CSS selector or function that uniquely identifies the element being created or controlled. This key is required. When receiving a CSS selector, that selector is evaluated by Pinegrow to return a boolean value. Any function passed through the ```selector``` key should return a boolean.   
 An example of a simple selector to target any page element with an attribute of 'pg-table'
 ```javascript
 selector: '[pg-table]',
 ```
-A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the Document.
+A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the Document.
 ```javascript
 selector: function(pgel) {
 	if (['html', 'body', 'head', 'script'].includes(pgel.tagName)) {
@@ -203,7 +208,8 @@ selector: function(pgel) {
 		return true;
 	}
 }
-```
+```  
+
 **parent_selector**  
 ## I think I need some help on this one. ?deprecated? only for certain elements?  
 
@@ -211,7 +217,8 @@ selector: function(pgel) {
 Determines the order in which an action or property control component will display in the panel. The default is 1000. This key is optional.  
 
 **code**  
-This key receives any reusable snippet - HTML, Javascript, PHP. This key is optional. If you are putting together a component consisting of controls or actions only it doesn't need to be added.  
+This key receives any reusable snippet - HTML, Javascript, PHP. This key is optional. If you are putting together a component consisting of controls or actions only it doesn't need to be added.   
+An example passing both HTML and PHP. 
 ```javascript
 code: '<h2>The title of this article is <?php the_title(); ?>.</h2>',
 ```
@@ -243,18 +250,19 @@ This code results in the following being displayed when the user hovers over the
 ![Image displayed on element hover](Images/Preview.png)  
 Note: If the ```code``` key has a value it will be appended to the preview HTML.  
 
-#### Section Set-up and Key:Value Pairs  
-The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to prefix the unique name of each section to insure it doesn't conflict with another plugin.  
+#### Section Set-up 
+___ 
+The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
 
 Basic ```section``` structure
 ```javascript
 sections: {
-	pg_unique_name_one: {
+	prefix_unique_name_one: {
 		name: 'Displayed Control Name One',
 		default_closed: true, \\optional
 		fields:{...},
 	},
-	pg_unique_name_two: {
+	prefix_unique_name_two: {
 		name: 'Displayed Control Name Two',
 		default_closed: false, \\optional
 		fields: {...},
@@ -263,6 +271,9 @@ sections: {
 ```  
 Properties Panel from the above code when element is selected
 ![Output for sections example.](Images/Section_example.png)  
+
+#### Sections Key:Value pairs
+___
 
  **name**  
  This key takes a name that will be displayed in the properties or actions panel. Note that alongside this name the Pinegrow App will list the source of the control or action. 
@@ -273,7 +284,8 @@ Properties Panel from the above code when element is selected
  **fields**  
  This key is again an object of objects. Each individual object is a control or action.
 
- #### Fields Overview  
+ #### Fields Overview
+ ___  
  Each field is a property control or action that modifies the element identified on the page by the main ```selector``` key. There are a number of built-in controls, such as checkboxes and drop-downs, but custom controls can also be built using API helpers. There are also several built-in actions, such as adding classes or attributes, but once again it is easy to build your own actions.  
  The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique name as key, with an object containing a number of key:value pairs.  
  Basic fields structure
@@ -287,25 +299,54 @@ Properties Panel from the above code when element is selected
 	 }
  }
  ```
- #### Fields Key:Value Pairs  
+ #### Fields Key:Value Pairs
+ ___ 
 
- **type**
+ 
+**name**  
+This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
+
+ **type**  
  This key takes a value that tells Pinegrow what type of control to display. The Pinegrow API has four main types built in:  
 
  | Type | Output |
  |----|----|
  | checkbox| Displays a checkbox - basic boolean control
- | select | Displays a dropdown for selecting from a list of options
+ | select | Displays a dropdown for selecting from a list of options - requires the options to be supplied either as an array of key:value objects, or as a function that returnss the same
  | text | Displays a textbox to receive any text
  | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
 
-In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key.
+In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key. This will be covered in ....
 
-**name**  
-This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
-
+**options**  
+This key supplies the list of choices to be displayed in the ```select``` dropdown list. They are supplied as an array of choices, where each choice is an object with two key:value pairs.  
+   * name - this key takes a string that is displayed to the user in the select dropdown
+   * key - this key takes a string that is the value returned when the user selects that option
+```javascript
+fields: {
+	button_group_size {
+		name: 'Button Size',
+		type: 'select',
+		options: [
+			{key: 'btn-group-lg', name: "Large"},{key: 'btn-group-sm', name: "Small"},{key: 'btn-group-xs', name: "Extra small"}
+		]
+	}, 
+}
+```   
 **action**  
-This key identifies what action Pinegrow should take when the user makes a selection with the control.
+This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional 
+
+ * apply_class  
+ 	This ```action``` value indicates that the value being supplied should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options```, from the textbox of a ```text``` type input, as a boolean from a ```checkbox``` type.  
+
+ * element_attribute  
+ This ```action``` value indicates that the value being supplied should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
+
+  * custom  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element.
+
+ ** 
+
 
 
 <a name="fch"></a>
