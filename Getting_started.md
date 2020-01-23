@@ -208,8 +208,10 @@ selector: function(pgel) {
 		return true;
 	}
 }
-```  
-
+```
+UPDATE  
+**selector_new**  
+## Not sure how this differs from passing ```selector``` a function?
 **parent_selector**  
 ## I think I need some help on this one. ?deprecated? only for certain elements?  
 
@@ -249,6 +251,9 @@ var getGridPreview = function(type) {
 This code results in the following being displayed when the user hovers over the element in the Library panel.  
 ![Image displayed on element hover](Images/Preview.png)  
 Note: If the ```code``` key has a value it will be appended to the preview HTML.  
+UPDATE  
+**on_inserted**  
+**on_changed**
 
 #### Section Set-up 
 ___ 
@@ -345,7 +350,12 @@ This key identifies what action Pinegrow should take when the user makes a selec
   * custom  
   This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element.
 
- ** 
+UPDATE  
+  **live_update** 
+  **get_value**  
+  **set_value**  
+  **empty_attribute**
+  **live_update**
 
 
 
