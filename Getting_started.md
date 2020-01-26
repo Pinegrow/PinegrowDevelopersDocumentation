@@ -320,6 +320,7 @@ This value for this key will be displayed in either the properties or actions ta
  | select | Displays a dropdown for selecting from a list of options - requires the options to be supplied either as an array of key:value objects, or as a function that returnss the same
  | text | Displays a textbox to receive any text
  | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
+ |slider|
 
 In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key. This will be covered in ....
 
