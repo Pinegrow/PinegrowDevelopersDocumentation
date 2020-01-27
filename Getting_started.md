@@ -307,6 +307,49 @@ ___
 **name**  
 This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
 
+**action**  
+This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
+
+ * apply_class  
+ 	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options```, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
+
+ * element_attribute  
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
+
+  * custom  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom controls](#) section.  
+
+An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
+```javascript
+fields: {
+	button_group_size {
+		name: 'Make button large?',
+		type: 'checkbox',
+		action: 'apply_class',
+		value: 'btn-lg'
+		]
+	}, 
+}
+```
+An example of the ```element_attribute``` action. This example will add the ```data-shipping``` attribute with a value supplied from a ```select``` dropdown.
+
+```javascript
+fields: {
+	shipping_method {
+		name: 'Shipping method?',
+		type: 'select',
+		options: [
+			{key: 'next-day', name: "Next Day"},{key: 'two-day', name: "2 day"},{key: 'standard', name: "Standard"}
+		],
+		action: 'element_attribute',
+		attribute: 'data-shipping',
+		empty_attribute: false
+	}, 
+}
+```
+**empty_attribute**  
+This key takes a boolean value and determines whether or not the attribute being added to the DOM element requires a value. For example, in some cases an attribute of 'disabled' might be added to an element.  
+
  **type**  
  This key takes a value that tells Pinegrow what type of control to display. The Pinegrow API has five main types built in:  
 
@@ -314,12 +357,13 @@ This value for this key will be displayed in either the properties or actions ta
  |----|----|
  | checkbox| Displays a checkbox - basic boolean control
  | select | Displays a dropdown for selecting from a list of options - requires the options to be supplied either as an array of key:value objects, or as a function that returns the same
- | text | Displays a textbox to receive any text
+ | text | Displays a textbox to receive plain text/HTML/code
  | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
  |slider| displays a range slider for numerical input|
 
-In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key. This will be further covered [below](#).
-
+In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined either using the ```control``` or ```show``` keys. This will be further covered in the [custom controls](#) section.  
+#### Select-specific key:value pairs
+***
 **options**  
 This key supplies the list of choices to be displayed in the ```select``` dropdown list. They are supplied as an array of choices, where each choice is an object with at least two key:value pairs.  
    * name - this key takes a string that is displayed to the user in the select dropdown
@@ -337,41 +381,32 @@ fields: {
 ```   
 A third key ```html``` is used for making custom buttons and will be covered in the [custom controls](#) section.  
 
-**action**  
-This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
+**show_empty**  
+This key takes a boolean value. If true, it will allow the user to select an empty value, or no value, rather than one from the list. Depending on action or other keys, this can have the effect of removing a particular class or attribute from the DOM element.
+#### Text-specific key:value pairs  
+***
+**live_update**  
+This key takes a boolean value. If set to true, the targeted element will update in real-time as the user types. If set to false, the element will not update until the user hits return.  
 
- * apply_class  
- 	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options```, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
+#### Slider-specific key:value pairs  
+***
+**slider_min**  
+This key takes a value for the lower end of the slider range.  
 
- * element_attribute  
- This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
+**slider_max**  
+This key takes a value for the upper end of the slider range.  
 
-  * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element.  
+**slider_step**  
+This key takes a value for the amount each tick of the slider should increment the value.  
 
-An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
-```javascript
-fields: {
-	button_group_size {
-		name: 'Make button large?',
-		type: 'checkbox',
-		action: 'apply_class',
-		value: 'btn-lg'
-		]
-	}, 
-}
-```
-An example of the ```element_attribute``` action. This example will add the ```data-name``` attribute with a value
+**slider_def_unit**  
+This key takes a string that indicates the type of unit the slider represents, e.g. 'px', 'ms', 'deg'  
 
-UPDATE  
-  **live_update** 
-  **get_value**  
-  **set_value**  
-  **empty_attribute**
-  **live_update**
-
-
+#### Additional key:value pairs
+---
+????
 
 <a name="fch"></a>
 ## Framework CMS Helpers  
 
+m n
