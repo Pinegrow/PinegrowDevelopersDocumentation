@@ -308,20 +308,20 @@ ___
 This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
 
  **type**  
- This key takes a value that tells Pinegrow what type of control to display. The Pinegrow API has four main types built in:  
+ This key takes a value that tells Pinegrow what type of control to display. The Pinegrow API has five main types built in:  
 
  | Type | Output |
  |----|----|
  | checkbox| Displays a checkbox - basic boolean control
- | select | Displays a dropdown for selecting from a list of options - requires the options to be supplied either as an array of key:value objects, or as a function that returnss the same
+ | select | Displays a dropdown for selecting from a list of options - requires the options to be supplied either as an array of key:value objects, or as a function that returns the same
  | text | Displays a textbox to receive any text
  | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
- |slider|
+ |slider| displays a range slider for numerical input|
 
-In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key. This will be covered in ....
+In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined using the ```custom``` key. This will be further covered [below](#).
 
 **options**  
-This key supplies the list of choices to be displayed in the ```select``` dropdown list. They are supplied as an array of choices, where each choice is an object with two key:value pairs.  
+This key supplies the list of choices to be displayed in the ```select``` dropdown list. They are supplied as an array of choices, where each choice is an object with at least two key:value pairs.  
    * name - this key takes a string that is displayed to the user in the select dropdown
    * key - this key takes a string that is the value returned when the user selects that option
 ```javascript
@@ -335,17 +335,33 @@ fields: {
 	}, 
 }
 ```   
+A third key ```html``` is used for making custom buttons and will be covered in the [custom controls](#) section.  
+
 **action**  
-This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional 
+This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
 
  * apply_class  
- 	This ```action``` value indicates that the value being supplied should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options```, from the textbox of a ```text``` type input, as a boolean from a ```checkbox``` type.  
+ 	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options```, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
 
  * element_attribute  
- This ```action``` value indicates that the value being supplied should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
 
   * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element.
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element.  
+
+An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
+```javascript
+fields: {
+	button_group_size {
+		name: 'Make button large?',
+		type: 'checkbox',
+		action: 'apply_class',
+		value: 'btn-lg'
+		]
+	}, 
+}
+```
+An example of the ```element_attribute``` action. This example will add the ```data-name``` attribute with a value
 
 UPDATE  
   **live_update** 
