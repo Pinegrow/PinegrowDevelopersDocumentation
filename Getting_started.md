@@ -94,7 +94,7 @@ The folder can also contain a subfolder of resources to be used with the templat
 ![template folder example](./Images/folder_structure.png)  
 Arguments
 - __template_folder__ - the source of the template folder relative to the main plugin file
-- __done__ - typically passed null, primarily for internal use, can take boolean
+- __done__ - typically passed null, takes a callback function that is triggered once the framework is created, passed the framework as an argument	
 - __index__ - determines the order of framework display - typically set to 100 or higher to add the plugin framework at the end
 - __filter_func__ - receives a function that can edit the files added to the template - optional, usually not used
 - __skip_add_to_template__ - optional, internal development use
@@ -127,7 +127,7 @@ The PGComponentTypeResource constructor is used to add javascript and CSS files 
 | isFolder | boolean - used to indicate if the resource is a folder or not -- default: false|
 | source | url - typically the same as the resource_url, in some cases need to be converted to system path seperators using the Node.js [path.sep](https://nodejs.org/api/path.html#path_path_sep) -- default: null|
 | relative_url | resource file location relative to the template -- default: null |
-|replace| boolean (or function returning boolean) If .detect is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically not used|
+|replace| boolean (or function returning boolean) If .detect is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically used to determine if a resource needs to be replaced during an update|
 
 Following creation and addition of key:value pairs, the new resource object is returned as a value to the framework in the ```resources``` key.
 ```javascript
@@ -167,7 +167,7 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
   framework.addComponentType(my_property_control);
   ```
   
-  For components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.  
+  Components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.  
   Library panel addition example
   ```javascript
   var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
@@ -209,12 +209,6 @@ selector: function(pgel) {
 	}
 }
 ```
-UPDATE  
-**selector_new**  
-## Not sure how this differs from passing ```selector``` a function?
-**parent_selector**  
-## I think I need some help on this one. ?deprecated? only for certain elements?  
-
 **priority**  
 Determines the order in which an action or property control component will display in the panel. The default is 1000. This key is optional.  
 
@@ -253,6 +247,8 @@ This code results in the following being displayed when the user hovers over the
 Note: If the ```code``` key has a value it will be appended to the preview HTML.  
 UPDATE  
 **on_inserted**  
+This key receives a function that is fired upon element insetion into the tree. One common use for this key is to display a message to the user or to refresh the page in the case of dynamic objects..   
+
 **on_changed**
 
 #### Section Set-up 
