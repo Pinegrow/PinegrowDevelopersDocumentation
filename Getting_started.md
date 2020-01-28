@@ -412,8 +412,10 @@ This key takes a string that indicates the type of unit the slider represents, e
 
 <a name="mc"></a>
 ## Menu Helpers  
-There are two major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu. The second allows for the addition of an entirely new menu.
+There are two major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu using the framework key ```on_page_menu``` and passing in the menu items. The second allows for the addition of an entirely new menu using the ```addPluginControlToTopbar()``` helper function.
 
+### .on_page_menu  
+As described above, this key is used for inserting additional items into the "Page" menu. The additional items will be added after the "Manage Google Fonts..." menu item and will only be visible when a page is opened in the editor. This key receives a function that is passed two arguments, ```page``` and ```items```. The ```items``` argument is an array of objects containing the items to be added to the menu
 
 <a name="fch"></a>
 ## Framework CMS Helpers 
