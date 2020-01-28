@@ -302,7 +302,6 @@ ___
  ```
  #### Fields Key:Value Pairs
  ___ 
-
  
 **name**  
 This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
@@ -317,7 +316,7 @@ This key identifies what action Pinegrow should take when the user makes a selec
  This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
 
   * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom controls](#) section.  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom controls](#ccs) section.  
 
 An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
 ```javascript
@@ -361,7 +360,7 @@ This key takes a boolean value and determines whether or not the attribute being
  | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
  |slider| displays a range slider for numerical input|
 
-In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined either using the ```control``` or ```show``` keys. This will be further covered in the [custom controls](#) section.  
+In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined either using the ```control``` or ```show``` keys. This will be further covered in the [custom controls](#ccs) section.  
 #### Select-specific key:value pairs
 ***
 **options**  
@@ -404,9 +403,18 @@ This key takes a string that indicates the type of unit the slider represents, e
 
 #### Additional key:value pairs
 ---
-????
+????  
+**toggle_buttons**
+
+<a name="ccs"></a>
+## Custom Controls  
+
+
+<a name="mc"></a>
+## Menu Helpers  
+There are two major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu. The second allows for the addition of an entirely new menu.
+
 
 <a name="fch"></a>
-## Framework CMS Helpers  
-
-m n
+## Framework CMS Helpers 
+--- 
