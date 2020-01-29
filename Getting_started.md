@@ -412,10 +412,25 @@ This key takes a string that indicates the type of unit the slider represents, e
 
 <a name="mc"></a>
 ## Menu Helpers  
-There are three major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu using the framework key ```on_page_menu``` and passing in the menu items. The second allows for the addition of an entirely new menu using the ```addPluginControlToTopbar()``` helper function. The third adds menu items to the contextual menu that appears when you right-click an element using a hook, ```on_build_actions_menu```.
+There are two major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu using the framework key ```on_page_menu``` and passing in the menu items. The second allows for the addition of an entirely new menu using the ```addPluginControlToTopbar()``` helper function.
 
-### .on_page_menu  
-As described above, this key is used for inserting additional items into the "Page" menu. The additional items will be added after the "Manage Google Fonts..." menu item and will only be visible when a page is opened in the editor. This key receives a function that is passed two arguments, ```page``` and ```items```. The ```items``` argument is an array of objects containing the items to be added to the menu.
+### .on_page_menu(page, items)  
+As described above, this key is used for inserting additional items into the "Page" menu. The additional items will be added after the "Manage Google Fonts..." menu item and will only be visible when a page is opened in the editor. This key receives a function that is passed two arguments, ```page``` and ```items```.  
+The ```items``` argument is an array of objects containing the items to be added to the menu. There are three different objects that ```items``` accepts.  
+
+ 1) An object with a single key:value pair  
+ ```type: 'divider'```   
+ This object adds a horizontal divider in the dropdown menu.
+ 
+ 2) An object that adds a header with two key value pairs:  
+ ```type: 'header',```  
+ ```label: 'Any string'```  
+ This object will cause Pinegrow to add a non-clickable header to  the dropdown menu using the string passed as the ```label``` value.
+ 3) An object with up two required and one optional key:value pairs:  
+ required - ```label: 'Any string',```  
+ required - ```action: function(){/*action to be performed when item is selected}```,  
+ optional - ```kbd: 'keyboard shortcut'```  
+ This object will display the ```label``` key value in the menu and execute the function passed in the ```action``` key value when the user clicks the menu item. Additionally, a shortcut key combination can be added through the ```kbd``` key.   
 
 <a name="fch"></a>
 ## Framework CMS Helpers 
