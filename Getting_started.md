@@ -420,3 +420,13 @@ As described above, this key is used for inserting additional items into the "Pa
 <a name="fch"></a>
 ## Framework CMS Helpers 
 --- 
+
+
+on_project_loaded
+on_page_loaded
+on_page_saved
+on_page_changed
+on_page_closed
+?on_build_actions_menu
+?on_element_inserted
+?
