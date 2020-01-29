@@ -407,11 +407,30 @@ This key takes a string that indicates the type of unit the slider represents, e
 **toggle_buttons**
 
 <a name="ccs"></a>
-## Custom Controls  
+## Custom Controls
+___
 
+### get_value
+### set_value
+
+### PgToggleButtonMaker()
+#### makeIcon
+#### on_show
+#### registerInputField
+#### showInputField
+#### createFieldDef
+
+## Additional Helpers
+___
+### getCurrentProject()
+### getSelectedPage()
+### show_alert
+### show_quick_message
+### getPlaceholderImage()
 
 <a name="mc"></a>
-## Menu Helpers  
+## Menu Helpers 
+___ 
 There are two major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu using the framework key ```on_page_menu``` and passing in the menu items. The second allows for the addition of an entirely new menu using the ```addPluginControlToTopbar()``` helper function.
 
 ### .on_page_menu(page, items)  
@@ -476,22 +495,17 @@ The next two keys work in tandem. One or both arguments must evaluate to true in
 This argument takes a boolean value. If true, then the menu will be displayed whenever the framework is loaded, irrespective of page or project. Note, this is accomplished through appending the ```$control``` to the editor through jQuery manipulation. If this function is called to early in the load there will be an error due to the targeted on page element not existing. 
 
 ### func
-This argument takes a function that evaluates whether the menu should be loaded.
+This argument takes a function that evaluates whether the menu should be loaded and should return a boolean value. 
 
-##
+Overall, the ```addPluginControlToTopbar``` should be used in conjunction with one of thePinegrow hooks to ensure proper loading. See the [hooks](#hs) section for details.
 
+## Framework Hooks
 
-
-<a name="fch"></a>
-## Framework CMS Helpers 
---- 
-
-
-on_project_loaded
-on_page_loaded
-on_page_saved
-on_page_changed
-on_page_closed
-?on_build_actions_menu
-?on_element_inserted
+### on_project_loaded
+### on_page_loaded
+### on_page_saved
+### on_page_changed
+### on_page_closed
+### ?on_build_actions_menu
+### ?on_element_inserted
 ?
