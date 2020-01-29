@@ -501,11 +501,16 @@ Overall, the ```addPluginControlToTopbar``` should be used in conjunction with o
 
 ## Framework Hooks
 
-### on_project_loaded
+### on_project_loaded()
+This key takes a function as value and calls the supplied function when a project with the plugin activated is loaded.
 ### on_page_loaded
+This key takes a function as value and calls the supplied function when a page with the plugin activated is loaded.
 ### on_page_saved
+This key takes a function as value and calls the supplied function when a page with the plugin activated is saved.
 ### on_page_changed
+This key takes a function as value and calls the supplied function when a page with the plugin activated is changed.
 ### on_page_closed
+This key takes a function as value and calls the supplied function when a page with the plugin activated is closed.
 ### ?on_build_actions_menu
 ### ?on_element_inserted
 ?
