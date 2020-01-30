@@ -59,10 +59,10 @@ framework.author_description = 'https://pinegrow.com';
 ### __info_badge__
 This key takes a short string that will be displayed when creating a new page using a template from the plugin. This is useful for displaying version numbers, for example.
 ```javascript
-framework.info_badge = 'v1.0';
+framework.info_badge = 'v1.0.0';
 ```
 
-Typical example of basic framework:
+Typical example of basic framework instantiation:
 ```javascript
 $(function() {
     $('body').one('pinegrow-ready', function(e, pinegrow) {
@@ -89,7 +89,7 @@ Once your framework has been instantiated with descriptors there are a number of
 
 ### __addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )__
 This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
-To utilize this in a plugin, create a folder that contains each template file, potentially a CSS file with the same name as the accompanying template file, plus an additional subfolder that must be named screenshots and contain an image to display to the user. Each image must have the same name as the template file.  
+To utilize this in a plugin, create a folder that contains each HTML template file, potentially a CSS file with the same name as the accompanying template file, plus an additional subfolder that must be named screenshots and contain an image to display to the user. Each image must have the same name as the template file.  
 The folder can also contain a subfolder of resources to be used with the templates.  
 ![template folder example](./Images/folder_structure.png)  
 Arguments
@@ -106,7 +106,7 @@ framework.addTemplateProjectFromResourceFolder ('./template', null, 100);
 ```
   
 ### __ignore_css_files__
-This key is used if the plugin is adding a template including customized CSS files that shouldn't be altered. It receives an array containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing.  
+This key is used if the plugin is adding a template that includes customized CSS files that shouldn't be altered. It receives an array containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing.  
 Single string
 ```javascript
 framework.ignore_css_files = [/my_plugin_style\.css/i];
@@ -122,7 +122,7 @@ The PGComponentTypeResource constructor is used to add javascript and CSS files 
 | ----| ---- |
 | type | mime type - this allows the Pinegrow app to determine the correct way to embed the file on the HTML page, \<script> and src for JavaScript, or \<link> and href for CSS. Automatically set to correct mime type by lookup.
 | detect | regex string - determine if another file (like jQuery) exists on the page -- typically not used |
-| footer | boolean - determines whether the item should be added to the head or the bottom of the body -- default: false |
+| footer | boolean - determines whether the item should be added to the head (false) or the bottom of the body (true) -- default: false |
 | project | internal use only |
 | isFolder | boolean - used to indicate if the resource is a folder or not -- default: false|
 | source | url - typically the same as the resource_url, in some cases need to be converted to system path seperators using the Node.js [path.sep](https://nodejs.org/api/path.html#path_path_sep) -- default: null|
@@ -161,13 +161,14 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
   2) Sections identify one or more groups of property controls or actions
   3) Fields are individual property controls or actions
   
-  How these components are added to the Pinegrow App depend on component type. For components that add property controls only, the component is added to the framework object using ```addComponentType```.
+  How these components are added to the Pinegrow App depends on component type. For components that add property controls only, the component is added to the framework object using ```addComponentType```.
   ```javascript
   var my_property_control = new PgComponentType( 'pg_my_control', 'My Control, {...} );
   framework.addComponentType(my_property_control);
   ```
   
   Components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.  
+
   Library panel addition example
   ```javascript
   var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
@@ -245,11 +246,12 @@ var getGridPreview = function(type) {
 This code results in the following being displayed when the user hovers over the element in the Library panel.  
 ![Image displayed on element hover](Images/Preview.png)  
 Note: If the ```code``` key has a value it will be appended to the preview HTML.  
-UPDATE  
+ 
 **on_inserted**  
-This key receives a function that is fired upon element insetion into the tree. One common use for this key is to display a message to the user or to refresh the page in the case of dynamic objects..   
+This key receives a function that is fired upon element insetion into the tree. One common use for this key is to display a message to the user or to refresh the page in the case of dynamic objects.   
 
-**on_changed**
+**on_changed**  
+This key receives a function that is fired upon alteration of the element. One common use for this key is to display a message to the user or refresh the page in the case of dynamic objects.
 
 #### Section Set-up 
 ___ 
@@ -306,49 +308,6 @@ ___
 **name**  
 This value for this key will be displayed in either the properties or actions tab next to the control, e.g. "Add dividers?" or "Display".
 
-**action**  
-This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
-
- * apply_class  
- 	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options```, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
-
- * element_attribute  
- This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
-
-  * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom controls](#ccs) section.  
-
-An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
-```javascript
-fields: {
-	button_group_size {
-		name: 'Make button large?',
-		type: 'checkbox',
-		action: 'apply_class',
-		value: 'btn-lg'
-		]
-	}, 
-}
-```
-An example of the ```element_attribute``` action. This example will add the ```data-shipping``` attribute with a value supplied from a ```select``` dropdown.
-
-```javascript
-fields: {
-	shipping_method {
-		name: 'Shipping method?',
-		type: 'select',
-		options: [
-			{key: 'next-day', name: "Next Day"},{key: 'two-day', name: "2 day"},{key: 'standard', name: "Standard"}
-		],
-		action: 'element_attribute',
-		attribute: 'data-shipping',
-		empty_attribute: false
-	}, 
-}
-```
-**empty_attribute**  
-This key takes a boolean value and determines whether or not the attribute being added to the DOM element requires a value. For example, in some cases an attribute of 'disabled' might be added to an element.  
-
  **type**  
  This key takes a value that tells Pinegrow what type of control to display. The Pinegrow API has five main types built in:  
 
@@ -361,6 +320,12 @@ This key takes a boolean value and determines whether or not the attribute being
  |slider| displays a range slider for numerical input|
 
 In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined either using the ```control``` or ```show``` keys. This will be further covered in the [custom controls](#ccs) section.  
+
+#### Checkbox-specific key:value:pairs  
+***
+**value**  
+This key takes a value that will be added or removed from the DOM element as class or attribute or custom value when the checkbox is ticked.
+
 #### Select-specific key:value pairs
 ***
 **options**  
@@ -385,7 +350,13 @@ This key takes a boolean value. If true, it will allow the user to select an emp
 #### Text-specific key:value pairs  
 ***
 **live_update**  
-This key takes a boolean value. If set to true, the targeted element will update in real-time as the user types. If set to false, the element will not update until the user hits return.  
+This key takes a boolean value. If set to true, the targeted element will update in real-time as the user types. If set to false, the element will not update until the user hits enter.  
+
+#### Image-specific key:value pairs  
+***
+**file_picker**  
+This key takes a boolean
+
 
 #### Slider-specific key:value pairs  
 ***
@@ -400,6 +371,49 @@ This key takes a value for the amount each tick of the slider should increment t
 
 **slider_def_unit**  
 This key takes a string that indicates the type of unit the slider represents, e.g. 'px', 'ms', 'deg'  
+
+**action**  
+This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
+
+ * apply_class  
+ 	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
+
+ * element_attribute  
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
+
+  * custom  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom controls](#ccs) section.  
+
+An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
+```javascript
+fields: {
+	button_group_size {
+		name: 'Make button large?',
+		type: 'checkbox',
+		action: 'apply_class',
+		value: 'btn-lg'
+	}, 
+}
+```
+An example of the ```element_attribute``` action. This example will add the ```data-shipping``` attribute with a value supplied from a ```select``` dropdown.
+
+```javascript
+fields: {
+	shipping_method {
+		name: 'Shipping method?',
+		type: 'select',
+		options: [
+			{key: 'next-day', name: "Next Day"},{key: 'two-day', name: "2 day"},{key: 'standard', name: "Standard"}
+		],
+		action: 'element_attribute',
+		attribute: 'data-shipping',
+		empty_attribute: false
+	}, 
+}
+```
+**empty_attribute**  
+This key takes a boolean value and determines whether or not the attribute being added to the DOM element requires a value. For example, in some cases an attribute of 'disabled' might be added to an element.  
+
 
 #### Additional key:value pairs
 ---
