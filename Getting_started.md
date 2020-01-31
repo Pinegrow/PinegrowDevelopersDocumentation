@@ -343,7 +343,10 @@ fields: {
 	}, 
 }
 ```   
-A third key ```html``` is used for making custom buttons and will be covered in the [custom controls](#) section.  
+A third key ```html``` is used for making custom buttons and will be covered in the [custom controls](#) section. 
+
+**toggle_buttons**  
+This key takes a boolean value. If set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
 
 **show_empty**  
 This key takes a boolean value. If true, it will allow the user to select an empty value, or no value, rather than one from the list. Depending on action or other keys, this can have the effect of removing a particular class or attribute from the DOM element.
@@ -355,8 +358,10 @@ This key takes a boolean value. If set to true, the targeted element will update
 #### Image-specific key:value pairs  
 ***
 **file_picker**  
-This key takes a boolean
+This key takes a boolean value. If true it will display a folder icon at the right of the input box, along with a thumbnail if the selected file is an image.  
 
+**file_picker_no_proxy**
+Not sure if needed or what exactly it does - important in editing remote url?
 
 #### Slider-specific key:value pairs  
 ***
@@ -418,12 +423,15 @@ This key takes a boolean value and determines whether or not the attribute being
 #### Additional key:value pairs
 ---
 ????  
-**toggle_buttons**
+
 
 <a name="ccs"></a>
 ## Custom Controls
 ___
-
+Overview  
+There are several different types of custom controls.
+1) Custom actions - actions that do more to manipulate the DOM than adding a simple class or attribute. These are added through the ```get_value``` and ```set_value```.
+2)
 ### get_value
 ### set_value
 
