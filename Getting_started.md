@@ -248,11 +248,21 @@ This code results in the following being displayed when the user hovers over the
 Note: If the ```code``` key has a value it will be appended to the preview HTML.  
  
 **on_inserted**  
-This key receives a function that is fired upon element insetion into the tree. One common use for this key is to display a message to the user or to refresh the page in the case of dynamic objects.   
+This key receives a function that is fired upon element insertion into the tree. This function takes two arguments, the DOM element and the page. One common use for this key is to display a message to the user or to refresh the page in the case of dynamic objects.  
+```javascript
+selector: '[slider]',
+code: '...',
+on_inserted: function(pgel, page) {
+	crsaQuickMessage( 'Refresh page to see changes', 3000 );
+},
+...
+```
 
 **on_changed**  
-This key receives a function that is fired upon alteration of the element. One common use for this key is to display a message to the user or refresh the page in the case of dynamic objects.
+This key receives a function that is fired upon alteration of the element. This function takes two arguments, the DOM element and the page. It will also fire if one of the element's decendents changes. One common use for this key is to display a message to the user or refresh the page in the case of dynamic objects.
 
+**on_moved**  
+This key receives a function that is fired upon element drag. This function receives three arguments. The first argument is the DOM element, the second is the original page location, and the third is the new location.  
 #### Section Set-up 
 ___ 
 The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
@@ -360,9 +370,6 @@ This key takes a boolean value. If set to true, the targeted element will update
 **file_picker**  
 This key takes a boolean value. If true it will display a folder icon at the right of the input box, along with a thumbnail if the selected file is an image.  
 
-**file_picker_no_proxy**
-Not sure if needed or what exactly it does - important in editing remote url?
-
 #### Slider-specific key:value pairs  
 ***
 **slider_min**  
@@ -376,6 +383,8 @@ This key takes a value for the amount each tick of the slider should increment t
 
 **slider_def_unit**  
 This key takes a string that indicates the type of unit the slider represents, e.g. 'px', 'ms', 'deg'  
+***
+***
 
 **action**  
 This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
@@ -387,7 +396,7 @@ This key identifies what action Pinegrow should take when the user makes a selec
  This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
 
   * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom controls](#ccs) section.  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](#cas) section.  
 
 An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
 ```javascript
@@ -422,15 +431,42 @@ This key takes a boolean value and determines whether or not the attribute being
 
 #### Additional key:value pairs
 ---
-????  
+**on_changed**  
+This key takes a function that receives 7 arguments. 
+
+### Conditional Field Display
+
+**show_if**
+This key determines whether a particular field will be displayed. As values it can receive either a standard if conditional that references another field on the same element, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. 
+Examples 
+```javascript
+def.sections = {
+    wp_site_options : {
+        name : 'Options',
+        fields : {
+            field_1 : {
+                ...
+                type: 'checkbox',
+                value: 'ON'
+            },
+            field_2 : {
+                ...
+                show_if: "field_1" //or
+                show_if: "field_1==ON" //if has specific value, or
+                show_if: function(values) { return values['field_1'] == 'ON' && values['another_field']; }// field_1 has specific value and another_field isn't null, or
+				show_if: function(values, pgel) { return values['field_1'] == 'ON' && pgel.hasAttr('data-name')}
+            }
+         }
+    }
+}
+```
 
 
-<a name="ccs"></a>
-## Custom Controls
+<a name="cas"></a>
+## Custom Actions
 ___
 Overview  
-There are several different types of custom controls.
-1) Custom actions - actions that do more to manipulate the DOM than adding a simple class or attribute. These are added through the ```get_value``` and ```set_value```.
+Custom actions do more to manipulate the DOM than adding a simple class or attribute. For example they can set multiple attributes and values at the same time, or add a class to a parent element in the DOM at the same time as adding one to the selected elements. They These are added through the ```get_value``` and ```set_value```.
 2)
 ### get_value
 ### set_value
