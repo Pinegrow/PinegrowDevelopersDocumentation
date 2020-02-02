@@ -94,7 +94,7 @@ The folder can also contain a subfolder of resources to be used with the templat
 ![template folder example](./Images/folder_structure.png)  
 Arguments
 - __template_folder__ - the source of the template folder relative to the main plugin file
-- __done__ - typically passed null, takes a callback function that is triggered once the framework is created, passed the framework as an argument	
+- __done__ - typically passed null, takes a callback function that is triggered once the framework is created and is passed the framework as an argument	
 - __index__ - determines the order of framework display - typically set to 100 or higher to add the plugin framework at the end
 - __filter_func__ - receives a function that can edit the files added to the template - optional, usually not used
 - __skip_add_to_template__ - optional, internal development use
@@ -102,7 +102,7 @@ Arguments
    
   Typical usage:
  ```javascript
-framework.addTemplateProjectFromResourceFolder ('./template', null, 100);
+framework.addTemplateProjectFromResourceFolder('./template', null, 100);
 ```
   
 ### __ignore_css_files__
@@ -121,13 +121,13 @@ The PGComponentTypeResource constructor is used to add javascript and CSS files 
 | key | value |
 | ----| ---- |
 | type | mime type - this allows the Pinegrow app to determine the correct way to embed the file on the HTML page, \<script> and src for JavaScript, or \<link> and href for CSS. Automatically set to correct mime type by lookup.
-| detect | regex string - determine if another file (like jQuery) exists on the page -- typically not used |
+| detect | regex string - determine if another file (like jQuery), or an earlier version exists on the page -- typically not used |
 | footer | boolean - determines whether the item should be added to the head (false) or the bottom of the body (true) -- default: false |
 | project | internal use only |
 | isFolder | boolean - used to indicate if the resource is a folder or not -- default: false|
 | source | url - typically the same as the resource_url, in some cases need to be converted to system path seperators using the Node.js [path.sep](https://nodejs.org/api/path.html#path_path_sep) -- default: null|
 | relative_url | resource file location relative to the template -- default: null |
-|replace| boolean (or function returning boolean) If .detect is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically used to determine if a resource needs to be replaced during an update|
+|replace| boolean (or function returning boolean) If the ```detect``` key is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically used to determine if a resource needs to be replaced during an update|
 
 Following creation and addition of key:value pairs, the new resource object is returned as a value to the framework in the ```resources``` key.
 ```javascript
@@ -178,28 +178,32 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
   or  
   Action panel addition example
   ```javascript
-  var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
+  var pg_custom_action_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
   pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
-  framework.addActionsSection(pg_custom_lib_section);
+  framework.addActionsSection(pg_custom_action_section);
   ```
 
 ### PgComponentType(unique_id, display_name, {options} )
 This constructor is passed three arguments.
 
- 1) A unique id. It is best practice to add a plugin specific prefix to the id to minimize potential conflict with other plugins. 
+ 1) A unique id. It is best practice to add a plugin specific prefix to the id to minimize potential conflict with other plugins, e.g. pge_unique_id.
  2) A name that is displayed in the library or actions tab.
  3) An object that contains the HTML, controls, and or actions.
 
-The options object can be further split into key:value pairs that provide the main body of the component, a section object that organizes all of the controls or actions, a set of field objects within the sections object that contain the key:value pairs that describe each control or action.  
+The options object can be further split into key:value pairs that provide the main body of the component, a section object that organizes all of the controls or actions, a set of field objects within the sections object that contain the key:value pairs that describe each control or action. Each component has a single set of main body options, but can have multiple sections with multiple fields each. 
  #### Main Body Key:Value Pairs
  ___  
 
 **selector**  
-This key receives either a CSS selector or function that uniquely identifies the element being created or controlled. This key is required. When receiving a CSS selector, that selector is evaluated by Pinegrow to return a boolean value. Any function passed through the ```selector``` key should return a boolean.   
+This key receives either a CSS selector(s) or function that uniquely identifies the element being created or controlled. This key is required and is passed 'null' if the component does not need to be identified by Pinegrow - for example, a sub-component of a larger HTML element. When receiving a CSS selector, that selector is evaluated by Pinegrow to return a boolean value. Any function passed through the ```selector``` key should return a boolean.   
 An example of a simple selector to target any page element with an attribute of 'pg-table'
 ```javascript
 selector: '[pg-table]',
-```
+```  
+An example targeting any element with a class of either 'container' or 'container-fluid'
+```javascript
+selector: '.container,.container-fluid',
+```  
 A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the Document.
 ```javascript
 selector: function(pgel) {
@@ -223,10 +227,10 @@ code: '<h2>The title of this article is <?php the_title(); ?>.</h2>',
 This key receives a function that returns HTML representing what will be shown if the user hovers over the snippet in the library. This code is automatically generated from the ```code``` key:value pair. However, in the case of elements such as containers or rows it is useful to have a visual representation. This key is optional.
 ```javascript
 Other component code...
-    preview: getGridPreview('container'),
+    preview: getGridPreview(),
 remainder of component code...
 
-var getGridPreview = function(type) {
+var getGridPreview = function() {
 	var white = 'height: 20px;';
 	var blue = 'height: 20px; background-color: #D8E5F2;';
 		return '<div class="container-fluid" style="border:2px solid #0098cc; height: 120px;">\
@@ -246,6 +250,9 @@ var getGridPreview = function(type) {
 This code results in the following being displayed when the user hovers over the element in the Library panel.  
 ![Image displayed on element hover](Images/Preview.png)  
 Note: If the ```code``` key has a value it will be appended to the preview HTML.  
+
+**empty_placeholder**  
+This key takes a boolean value. If true, it will insert a temporary placeholder element into the code until the user adds content. This is generally used for containers or rows to make them more easily dragged or targeted for editing.
  
 **on_inserted**  
 This key receives a function that is fired upon element insertion into the tree. This function takes two arguments, the DOM element and the page. One common use for this key is to display a message to the user or to refresh the page in the case of dynamic objects.  
@@ -262,7 +269,7 @@ on_inserted: function(pgel, page) {
 This key receives a function that is fired upon alteration of the element. This function takes two arguments, the DOM element and the page. It will also fire if one of the element's decendents changes. One common use for this key is to display a message to the user or refresh the page in the case of dynamic objects.
 
 **on_moved**  
-This key receives a function that is fired upon element drag. This function receives three arguments. The first argument is the DOM element, the second is the original page location, and the third is the new location.  
+This key receives a function that is fired upon element drag. This function receives three arguments. The first argument is the DOM element, the second is the original page location, and the third is the new location. This is an advanced key that is generally not used.  
 #### Section Set-up 
 ___ 
 The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
@@ -348,8 +355,10 @@ fields: {
 		name: 'Button Size',
 		type: 'select',
 		options: [
-			{key: 'btn-group-lg', name: "Large"},{key: 'btn-group-sm', name: "Small"},{key: 'btn-group-xs', name: "Extra small"}
-		]
+			{key: 'btn-group-lg', name: "Large"},
+			{key: 'btn-group-sm', name: "Small"},
+			{key: 'btn-group-xs', name: "Extra small"}
+		],
 	}, 
 }
 ```   
@@ -393,7 +402,7 @@ This key identifies what action Pinegrow should take when the user makes a selec
  	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
 
  * element_attribute  
- This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, or ```image``` user input.
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, ```image```, or ```slider``` user input.
 
   * custom  
   This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](#cas) section.  
