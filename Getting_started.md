@@ -422,11 +422,13 @@ An example of the ```element_attribute``` action. This example will add the ```d
 
 ```javascript
 fields: {
-	shipping_method {
+	shipping_method: {
 		name: 'Shipping method?',
 		type: 'select',
 		options: [
-			{key: 'next-day', name: "Next Day"},{key: 'two-day', name: "2 day"},{key: 'standard', name: "Standard"}
+			{key: 'next-day', name: "Next Day"},
+			{key: 'two-day', name: "2 day"},
+			{key: 'standard', name: "Standard"}
 		],
 		action: 'element_attribute',
 		attribute: 'data-shipping',
@@ -441,12 +443,34 @@ This key takes a boolean value and determines whether or not the attribute being
 #### Additional key:value pairs
 ---
 **on_changed**  
-This key takes a function that receives 7 arguments. 
+This key takes a function that receives 9 arguments in order -  pgel, prop, value, oldValue, fieldDef, $field, eventType, fieldList, CrsaPage.
+  * pgel  
+  This argument is the pgParserNode (the source-code representation of the current DOM node) for the selected element.  
+  * prop  
+  This argument returns the field name of the control that changed. In the previous example this would be 'shipping_method'.
+  * value  
+  This argument returns the value that was selected by the user.
+  * oldValue  
+  This argument returns the previous value that the user had selected. If there was no previous selection it returns 'null'.
+  * fieldDef  
+  This argument returns the full field definition, including ```action``` type and ```name``` key:value pairs.
+  * $field  
+  This argument returns a jQuery element representing the field control. 
+  * eventType
+  This argument returns the type of event that triggered the ```on_changed``` function - typically 'changed'.
+  * fieldList
+  This argument returns an array of all the fields and field values for the section that the triggering field is included within.
+  * CrsaPage
+  This argument returns an array of values that represent the selected page options. This includes the file URL, page name, attached stylesheets, and breakpoints.
 
 ### Conditional Field Display
 
 **show_if**
-This key determines whether a particular field will be displayed. As values it can receive either a standard if conditional that references another field on the same element, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. 
+This key determines whether a particular field will be displayed. As values it can receive either a standard if conditional that references another field in the same section, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. Functions receive two arguments, values and pgel.
+  * values
+  This argument is an array of all the other fields in the section and their value.
+  * pgel
+  This argument is the pgParserNode (the source-code representation of the current DOM node) for the selected element.  
 Examples 
 ```javascript
 def.sections = {
@@ -470,7 +494,16 @@ def.sections = {
 }
 ```
 
+<a name="ccs"></a>
+## Custom Controls
 
+#### PgToggleButtonMaker()
+#### makeIcon
+#### on_define
+#### on_show
+#### registerInputField
+#### showInputField
+#### createFieldDef
 <a name="cas"></a>
 ## Custom Actions
 ___
@@ -480,20 +513,49 @@ Custom actions do more to manipulate the DOM than adding a simple class or attri
 ### get_value
 ### set_value
 
-### PgToggleButtonMaker()
-#### makeIcon
-#### on_show
-#### registerInputField
-#### showInputField
-#### createFieldDef
+
+
 
 ## Additional Helpers
 ___
-### getCurrentProject()
-### getSelectedPage()
-### show_alert
-### show_quick_message
-### getPlaceholderImage()
+### pinegrow.getCurrentProject()
+This helper function returns an array of key:value pairs with information about the current project, including project folder URL. If the current page is not part of a project it returns 'null'. This helper is useful to test whether the current page is part of a project before trying to add resources.
+### pinegrow.getSelectedPage()
+This helper function returns the CrsaPage variable for the current page, which contains an array of key:value pairs with information such as breakpoints and page file URL.
+### crsaQuickMessage( HTML, duration, single, error)
+This helper allows the display of a message to the user. It is usually triggered by the```on_inserted``` or ```on_changed``` keys.
+  * HTML
+  This argument receives an HTML or plain text string to display to the user
+  * duration
+  This argument receives the number of ms to display the message. Note: this will block any interaction with the Pinegrow App for the duration of the message.
+  * single
+  This argument receives a boolean value and is optional. Generally only passed in if also passing a value to error. Has no impact on message display.
+  * error
+  This argument receives a boolean value and is optional. If 'true' then the message modal will receive an orange border.
+
+### pinegrow.showAlert(HTML, title, button_one_msg, button_two_msg, button_one_func, button_two_func)
+This helper function receives up to 6 arguments (all technically optional) and opens a modal that collects user input. It can display up to two buttons, each with a different function.
+  * HTML
+  This argument receives an HTML or plain text string to display as the body text of the modal. Optional and defaults to an empty string if null is passed.
+  * title
+  This argument receives an HTML or plain text string to display as the title for the modal. Optional and defaults to 'Notice' if null is passed.
+  * button_one_msg
+  This argument receives an HTML or plain text string to display as the first button text. Optional and defaults to 'OK' if null is passed.
+  * button_two_msg
+  This argument receives an HTML or plain text string to display as the second button text. Optional with no button displayed if passed null.
+  * button_one_func
+  This argument receives a function that is fired if the user clicks button number one. Optional and defaults to null if not passed. If the button is used to cancel any changes and close the modal and a second button with function is being passed, this argument should be passed 'null'.
+  * button_two_func
+  This argument receives a function that is fired if the user clicks button two. Optional and defaults to null if not passed.
+  ```javascript
+  var $html = $('<h3>Do you wish to add the slider element script to your page?</h3>\
+  <p>This is required for the slider element to function.</p>');
+  pinegrow.showAlert ($html, 'Add slider JavaScript?', 'Cancel', 'Yes, please!', null, function(){addScript();});
+  ```
+  ![Example showAlert Output](Images/showAlert.png)
+
+### pinegrow.getPlaceholderImage()
+This helper will return a random image from the pinegrow server to serve as a placeholder in any image element. Note, this will only work if the user is connected to the internet.
 
 <a name="mc"></a>
 ## Menu Helpers 
