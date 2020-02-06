@@ -508,9 +508,14 @@ def.sections = {
 ## Custom Actions
 ___
 Overview  
-Custom actions do more to manipulate the DOM than adding a simple class or attribute. For example they can set multiple attributes and values at the same time, or add a class to a parent element in the DOM at the same time as adding one to the selected elements. They These are added through the ```get_value``` and ```set_value```.
-2)
+Custom actions do more to manipulate the DOM than adding a simple class or attribute. For example they can set multiple attributes and values at the same time, or add a class to a parent element in the DOM at the same time as adding one to the selected elements. They are added through the ```get_value``` and ```set_value``` keys, with the ```action``` key set to ```custom```.
+
 ### get_value
+This key recieves a function as a value. This function receives a single argument, ```pgel```, which is the pgParserNode (the source-code representation of the current DOM node) for the selected element. This function should return the current value that the control should display based on the current state of the DOM with respect to the control field. For example, if the custom control adds an attribute to the parent element, the ```get_value``` key function should fetch and examine the parent element and return "true" if the attribute is present. Depending on the type of control, the value that is returned will need to be different.
+|type|returned value|
+|---|---|
+checkbox | true/1 or null/false/0
+select | key
 ### set_value
 
 
