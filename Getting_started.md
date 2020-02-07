@@ -362,10 +362,8 @@ fields: {
 	}, 
 }
 ```   
-A third key ```html``` is used for making custom buttons and will be covered in the [custom controls](#) section. 
+A third key ```html``` is used for making custom buttons in conjunction with the ```toggle_buttons``` key and will be covered in the [custom controls](#ccs) section. 
 
-**toggle_buttons**  
-This key takes a boolean value. If set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
 
 **show_empty**  
 This key takes a boolean value. If true, it will allow the user to select an empty value, or no value, rather than one from the list. Depending on action or other keys, this can have the effect of removing a particular class or attribute from the DOM element.
@@ -496,8 +494,36 @@ def.sections = {
 
 <a name="ccs"></a>
 ## Custom Controls
+---
+### Overview
+Custom controls allow for a more customized appearance for a plugin. They also allow for the construction of more complex controls. One example of this would be a set of side-by-side dropdown menus to set column numbers for each breakpoint. At a basic level, Pinegrow provides two methods to create controls with a custom look - the ```toggle_buttons``` plus ```html``` keys and the ```PgToggleButtonMaker()``` constructor. At a more advanced level the Pinegrow API a series of keys and helper functions for novel layouts.
 
-#### PgToggleButtonMaker()
+**toggle_buttons**  
+As briefly mentioned in the documentation of the ```select``` type, this key works along with the ```html``` key. This key takes a boolean value and if set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
+
+**html**
+This key takes an HTML string of function that returns an HTML string as value and should be provided as the third key in an individual option object within an option array. This HTML string can contain inline styling and classes. 
+```javascript
+options: [
+	{
+		key: 'push',
+		name: 'Push',
+		html: '<div class="pg-tb-button pg-tb-button-text" style="font-weight: 700; color: white;" title="Push">Push</div>'
+	},
+	{
+		key: 'slide',
+		name: 'Slide',
+		html: '<div class="pg-tb-button pg-tb-button-text" style="font-weight: 700; color: white;" title="Slide">Slide</div>'
+	}
+	}
+]
+```
+For simple buttons the ```pg-tb-button``` and ```pg-tb-button-text``` classes that can be added to maintain an overall appearance that mimics the standard interface.
+
+
+#### PgToggleButtonMaker()  
+This constructor exposes a number of different helper functions that aid in making different types of interface buttons.
+
 #### makeIcon
 #### on_define
 #### on_show
@@ -507,7 +533,7 @@ def.sections = {
 <a name="cas"></a>
 ## Custom Actions
 ___
-Overview  
+### Overview  
 Custom actions do more to manipulate the DOM than adding a simple class or attribute. For example they can set multiple attributes and values at the same time, or add a class to a parent element in the DOM at the same time as adding one to the selected elements. They are comprised of two components, the ```get_value``` and ```set_value``` keys, with the ```action``` key set to ```custom```.
 
 ### get_value
