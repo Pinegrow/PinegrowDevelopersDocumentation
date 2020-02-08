@@ -522,8 +522,21 @@ For simple buttons the ```pg-tb-button``` and ```pg-tb-button-text``` classes th
 
 
 #### PgToggleButtonMaker()  
-This constructor exposes a number of different helper functions that aid in making different types of interface buttons.
+This constructor exposes a number of different helper functions that aid in making different types of interface buttons. It doesn't receive any arguments and each of the helper functions are passed to the ```html``` key.  
+Basic usage
+```javascript
+var button_maker = PgToggleButtonMaker();
+```
 
+### helper functions
+---
+#### makeText( text, options)
+This helper function receives two arguments. The first, ```text``` is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.
+
+#### makeColor
+#### makeColorText
+#### makeText
+#### makeIcon
 #### makeIcon
 #### on_define
 #### on_show
