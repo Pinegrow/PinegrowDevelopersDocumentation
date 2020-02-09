@@ -518,7 +518,7 @@ options: [
 	}
 ]
 ```
-For simple buttons the ```pg-tb-button``` and ```pg-tb-button-text``` classes that can be added to maintain an overall appearance that mimics the standard interface.
+For simple buttons the ```pg-tb-button``` and ```pg-tb-button-text``` classes can be added to maintain an overall appearance that mimics the standard interface.
 
 
 #### PgToggleButtonMaker()  
@@ -531,7 +531,32 @@ var button_maker = PgToggleButtonMaker();
 ### helper functions
 ---
 #### makeText( text, options)
-This helper function receives two arguments. The first, ```text``` is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.
+This helper function receives two arguments. The first, ```text``` is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.  
+```styles```  
+This key receives an object containing key:value pairs where each key is a valid CSS property, e.g. ```color``` or ```padding```, and the value is what you want the property value set to, e.g. ```red```. These styles will be added inline to the resulting button.  
+```attributes```  
+This key recieves an object containing key:value pairs where each key is an attribute name, e.g. ```data-toggle``` or ```placement```, and the value is what you want that attribute to be set, e.g. ```tooltip``` or ```left```. For an empty attribute 
+Example usage
+```javascript
+'options' : [
+    {
+        'key' : 'normal',
+        'name' : 'Normal',
+        'html' : bm.makeText('Abc', {
+            styles: {'font-family': 'serif', 'font-size': '15px'},
+            attributes: {'title': 'Normal'}
+        })
+    },
+    {
+        'key' : 'small-caps',
+        'name' : 'Small caps',
+        'html' : bm.makeText('Abc', {
+            styles: {'font-family': 'serif', 'font-size': '15px', 'font-variant': 'small-caps'},
+            attributes: {'title': 'Small caps'}
+        })
+    }
+]
+```
 
 #### makeColor
 #### makeColorText
