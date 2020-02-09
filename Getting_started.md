@@ -496,7 +496,7 @@ def.sections = {
 ## Custom Controls
 ---
 ### Overview
-Custom controls allow for a more customized appearance for a plugin. They also allow for the construction of more complex controls. One example of this would be a set of side-by-side dropdown menus to set column numbers for each breakpoint. At a basic level, Pinegrow provides two methods to create controls with a custom look - the ```toggle_buttons``` plus ```html``` keys and the ```PgToggleButtonMaker()``` constructor. At a more advanced level the Pinegrow API a series of keys and helper functions for novel layouts.
+Custom controls allow for a more customized appearance for a plugin. They also allow for the construction of more complex controls. One example of this would be a set of side-by-side dropdown menus to set column numbers for each breakpoint. At a basic level, Pinegrow provides two methods to create controls with a custom look - the ```toggle_buttons``` key plus ```html``` key with or without the ```PgToggleButtonMaker()``` constructor. At a more advanced level the Pinegrow API a series of keys and helper functions for novel layouts.
 
 **toggle_buttons**  
 As briefly mentioned in the documentation of the ```select``` type, this key works along with the ```html``` key. This key takes a boolean value and if set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
@@ -525,15 +525,17 @@ For simple buttons the ```pg-tb-button``` and ```pg-tb-button-text``` classes ca
 This constructor exposes a number of different helper functions that aid in making different types of interface buttons. It doesn't receive any arguments and each of the helper functions are passed to the ```html``` key.  
 Basic usage
 ```javascript
-var button_maker = PgToggleButtonMaker();
+var button_maker = new PgToggleButtonMaker();
 ```
 
 ### helper functions
 ---
 #### makeText( text, options)
 This helper function receives two arguments. The first, ```text``` is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.  
+
 ```styles```  
 This key receives an object containing key:value pairs where each key is a valid CSS property, e.g. ```color``` or ```padding```, and the value is what you want the property value set to, e.g. ```red```. These styles will be added inline to the resulting button.  
+
 ```attributes```  
 This key recieves an object containing key:value pairs where each key is an attribute name, e.g. ```data-toggle``` or ```placement```, and the value is what you want that attribute to be set, e.g. ```tooltip``` or ```left```. For an empty attribute 
 Example usage
@@ -542,7 +544,7 @@ Example usage
     {
         'key' : 'normal',
         'name' : 'Normal',
-        'html' : bm.makeText('Abc', {
+        'html' : button_maker.makeText('Abc', {
             styles: {'font-family': 'serif', 'font-size': '15px'},
             attributes: {'title': 'Normal'}
         })
@@ -550,7 +552,7 @@ Example usage
     {
         'key' : 'small-caps',
         'name' : 'Small caps',
-        'html' : bm.makeText('Abc', {
+        'html' : button_maker.makeText('Abc', {
             styles: {'font-family': 'serif', 'font-size': '15px', 'font-variant': 'small-caps'},
             attributes: {'title': 'Small caps'}
         })
@@ -558,7 +560,9 @@ Example usage
 ]
 ```
 
-#### makeColor
+#### makeColor(color, text, options)
+  
+
 #### makeColorText
 #### makeText
 #### makeIcon
