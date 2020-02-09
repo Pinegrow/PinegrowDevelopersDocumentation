@@ -559,14 +559,14 @@ Example usage
     }
 ]
 ```
-
+//This might not be a useful helper - makeColorText?
 #### makeColor(color, text, options)
-  
+
 
 #### makeColorText
-#### makeText
 #### makeIcon
-#### makeIcon
+
+## Advanced Custom Controls
 #### on_define
 #### on_show
 #### registerInputField
