@@ -362,10 +362,8 @@ fields: {
 	}, 
 }
 ```   
-A third key ```html``` is used for making custom buttons and will be covered in the [custom controls](#) section. 
+A third key ```html``` is used for making custom buttons in conjunction with the ```toggle_buttons``` key and will be covered in the [custom controls](#ccs) section. 
 
-**toggle_buttons**  
-This key takes a boolean value. If set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
 
 **show_empty**  
 This key takes a boolean value. If true, it will allow the user to select an empty value, or no value, rather than one from the list. Depending on action or other keys, this can have the effect of removing a particular class or attribute from the DOM element.
@@ -496,8 +494,49 @@ def.sections = {
 
 <a name="ccs"></a>
 ## Custom Controls
+---
+### Overview
+Custom controls allow for a more customized appearance for a plugin. They also allow for the construction of more complex controls. One example of this would be a set of side-by-side dropdown menus to set column numbers for each breakpoint. At a basic level, Pinegrow provides two methods to create controls with a custom look - the ```toggle_buttons``` plus ```html``` keys and the ```PgToggleButtonMaker()``` constructor. At a more advanced level the Pinegrow API a series of keys and helper functions for novel layouts.
 
-#### PgToggleButtonMaker()
+**toggle_buttons**  
+As briefly mentioned in the documentation of the ```select``` type, this key works along with the ```html``` key. This key takes a boolean value and if set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
+
+**html**
+This key takes an HTML string of function that returns an HTML string as value and should be provided as the third key in an individual option object within an option array. This HTML string can contain inline styling and classes. 
+```javascript
+options: [
+	{
+		key: 'push',
+		name: 'Push',
+		html: '<div class="pg-tb-button pg-tb-button-text" style="font-weight: 700; color: white;" title="Push">Push</div>'
+	},
+	{
+		key: 'slide',
+		name: 'Slide',
+		html: '<div class="pg-tb-button pg-tb-button-text" style="font-weight: 700; color: white;" title="Slide">Slide</div>'
+	}
+	}
+]
+```
+For simple buttons the ```pg-tb-button``` and ```pg-tb-button-text``` classes that can be added to maintain an overall appearance that mimics the standard interface.
+
+
+#### PgToggleButtonMaker()  
+This constructor exposes a number of different helper functions that aid in making different types of interface buttons. It doesn't receive any arguments and each of the helper functions are passed to the ```html``` key.  
+Basic usage
+```javascript
+var button_maker = PgToggleButtonMaker();
+```
+
+### helper functions
+---
+#### makeText( text, options)
+This helper function receives two arguments. The first, ```text``` is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.
+
+#### makeColor
+#### makeColorText
+#### makeText
+#### makeIcon
 #### makeIcon
 #### on_define
 #### on_show
@@ -507,17 +546,50 @@ def.sections = {
 <a name="cas"></a>
 ## Custom Actions
 ___
-Overview  
-Custom actions do more to manipulate the DOM than adding a simple class or attribute. For example they can set multiple attributes and values at the same time, or add a class to a parent element in the DOM at the same time as adding one to the selected elements. They are added through the ```get_value``` and ```set_value``` keys, with the ```action``` key set to ```custom```.
+### Overview  
+Custom actions do more to manipulate the DOM than adding a simple class or attribute. For example they can set multiple attributes and values at the same time, or add a class to a parent element in the DOM at the same time as adding one to the selected elements. They are comprised of two components, the ```get_value``` and ```set_value``` keys, with the ```action``` key set to ```custom```.
 
 ### get_value
-This key takes a function as value. This function receives a single argument, ```pgel```, which is the pgParserNode (the source-code representation of the current DOM node) for the selected element. This function should return the current value that the control should display based on the current state of the DOM with respect to the control field. For example, if the custom control adds an attribute to the parent element, the ```get_value``` key function should fetch and examine the parent element and return "true" if the attribute is present. Depending on the type of control, the value that is returned will need to be different.
+This key accepts a function as a value. This function receives a single argument, ```pgel```, which is the pgParserNode (the source-code representation of the current DOM node) for the selected element. This function should return the current value that the control should display. This value is based on the current state of the DOM. For example, if the custom control adds an attribute to the parent element, the ```get_value``` key function should fetch and examine the parent element and return "true" if the attribute is present. Depending on the type of control, the value that is returned will need to be different.
 |type|returned value|
 |---|---|
 checkbox | true/1 or null/false/0
-select | key
+select | value of ```name``` key
+text | user entered text
+image | file name
+slider | current slider value
 ### set_value
+This key accepts a function as value. This function receives two arguments, ```pgel```, which is the pgParserNode (the source-code representation of the current DOM node) for the selected element, and ```value```, which is the user selected value from the field. It is the responsability of this function to manipulate the DOM in response to the user selection.  
+Simple example of a custom field
+```javascript
+//other component code
+fields: {
+	pge_add_tooltip: {
+						type: 'checkbox',
+						name: 'Add tooltip?',
+						action: 'custom',
+						value: '1',
+						get_value: function (pgel) {
+							return pgel.getAttribute('data-toggle') === 'tooltip' ? '1' : null;
+						},
+						set_value: function (pgel, value) {
+							if (value) {
+								pgel.setAttribute('data-toggle','tooltip');
+								pgel.setAttribute('data-placement', 'top');
+							} else {
+								pgel.removeAttribute('data-toggle');
+								pgel.removeAttribute('data-placement');
+							}
+							return value;
+						}
+					}
+				}
+			},
+}
 
+```  
+In an actual plugin an additional plugin to select the value of the ```data-placement``` attribute would be conditionally displayed when a tooltip was added.
+Note: along with the ```custom``` action, a ```value``` key with a value that is non-zero and defined is required. In this example the ```value``` key is passed a string, ```'1'``` but passing a non-zero integer, or any string is sufficent.  
 
 
 
