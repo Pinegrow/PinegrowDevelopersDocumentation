@@ -559,11 +559,13 @@ Example usage
     }
 ]
 ```
-//This might not be a useful helper - makeColorText?
+
 #### makeColor(color, text, options)
+This helper function returns a button with a colored background. It accepts three arguments. The first is ```color```, which receives the desired background color of the button. The second is ```text```, which receives an HTML string to be displayed on the button. The third is ```options```. Like ```makeText()```, this key can receive a ```styles``` object and an ```attribute``` object.  
+The one caveate to using this helper is that any objects supplied through the ```options``` argument are merged with the existing key:value pairs set by default in the makeColor() function. This means that the default styling and passed in color argument will be overridden by any ```style``` object passed in. No default attributes are set in the function, so there is no conflict in passing an ```attribute``` object.
 
-
-#### makeColorText
+#### makeColorText()  
+This helper function returns 
 #### makeIcon
 ## Advanced Custom Controls
 #### on_define
