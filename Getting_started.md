@@ -561,11 +561,11 @@ Example usage
 ```
 
 #### makeColor(color, text, options)
-This helper function returns a button with a colored background. It accepts three arguments. The first is ```color```, which receives the desired background color of the button. The second is ```text```, which receives an HTML string to be displayed on the button. The third is ```options```. Like ```makeText()```, this key can receive a ```styles``` object and an ```attribute``` object.  
+This helper is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. This helper function returns a small 16px x 18px button with a colored background. It accepts three arguments. The first is ```color```, which receives the desired background color of the button. The second is ```text```, which receives an HTML string to be displayed on the button - with the caveat that the string must fit on a small button, usually a single character. The third is ```options```. Like ```makeText()```, this key can receive a ```styles``` object and an ```attribute``` object.  
 The one caveate to using this helper is that any objects supplied through the ```options``` argument are merged with the existing key:value pairs set by default in the makeColor() function. This means that the default styling and passed in color argument will be overridden by any ```style``` object passed in. No default attributes are set in the function, so there is no conflict in passing an ```attribute``` object.
 
-#### makeColorText()  
-This helper function returns 
+#### makeColorText(color, options, text)  
+This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function 
 #### makeIcon
 ## Advanced Custom Controls
 #### on_define
