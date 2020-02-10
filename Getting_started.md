@@ -565,7 +565,6 @@ Example usage
 
 #### makeColorText
 #### makeIcon
-
 ## Advanced Custom Controls
 #### on_define
 #### on_show
