@@ -531,7 +531,7 @@ var button_maker = new PgToggleButtonMaker();
 ### helper functions
 ---
 #### makeText( text, options)
-This helper function receives two arguments. The first, ```text``` is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.  
+This helper function receives two arguments. The first, ```text```, is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.  
 
 ```styles```  
 This key receives an object containing key:value pairs where each key is a valid CSS property, e.g. ```color``` or ```padding```, and the value is what you want the property value set to, e.g. ```red```. These styles will be added inline to the resulting button.  
@@ -562,11 +562,14 @@ Example usage
 
 #### makeColor(color, text, options)
 This helper is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. This helper function returns a small 16px x 18px button with a colored background. It accepts three arguments. The first is ```color```, which receives the desired background color of the button. The second is ```text```, which receives an HTML string to be displayed on the button - with the caveat that the string must fit on a small button, usually a single character. The third is ```options```. Like ```makeText()```, this key can receive a ```styles``` object and an ```attribute``` object.  
-The one caveate to using this helper is that any objects supplied through the ```options``` argument are merged with the existing key:value pairs set by default in the makeColor() function. This means that the default styling and passed in color argument will be overridden by any ```style``` object passed in. No default attributes are set in the function, so there is no conflict in passing an ```attribute``` object.
+The one caveat to using this helper is that any objects supplied through the ```options``` argument are merged with the existing key:value pairs set by default in the makeColor() function. This means that the default styling and passed in color argument will be overridden by any ```style``` object passed in. No default attributes are set in the function, so there is no conflict in passing an ```attribute``` object.
 
 #### makeColorText(color, options, text)  
-This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function 
-#### makeIcon
+This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function receives three arguments, The first is ```color```, which receives the desired color of the icon displayed on the button. The second is ```options```, and it receives ```styles``` and ```options``` objects like the other helpers described above. The third, ```text``` can be passed to the function but is not used in the function. It has the same caveats as the ```makeColor``` function.  
+
+#### makeIcon(icon, options)  
+This helper function receives two arguments. The first, ```icon```, is a string representing the name of the glyph to be displayed on the button. The second, ```options```, takes ```settings``` and ```attributes``` objects like the ```makeText()``` function. Unlike that function, the ```makeIcon()``` function has no predefined options. A searchable table of the glyphs can be accessed [here](#).
+
 ## Advanced Custom Controls
 #### on_define
 #### on_show
