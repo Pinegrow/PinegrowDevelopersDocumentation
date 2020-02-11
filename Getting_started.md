@@ -567,8 +567,44 @@ The one caveat to using this helper is that any objects supplied through the ```
 #### makeColorText(color, options, text)  
 This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function receives three arguments, The first is ```color```, which receives the desired color of the icon displayed on the button. The second is ```options```, and it receives ```styles``` and ```options``` objects like the other helpers described above. The third, ```text``` can be passed to the function but is not used in the function. It has the same caveats as the ```makeColor``` function.  
 
-#### makeIcon(icon, options)  
-This helper function receives two arguments. The first, ```icon```, is a string representing the name of the glyph to be displayed on the button. The second, ```options```, takes ```settings``` and ```attributes``` objects like the ```makeText()``` function. Unlike that function, the ```makeIcon()``` function has no predefined options. A searchable table of the glyphs can be accessed [here](#).
+#### makeIcon(icon, otions)  
+This helper function receives two arguments. The first, ```icon```, is a string representing the name of the glyph to be displayed on the button. The second, ```options```, takes ```settings``` and ```attributes``` objects like the ```makeText()``` function. Unlike that function, the ```makeIcon()``` function has no predefined options. A searchable table of the glyphs can be accessed [here](#).  
+Example usage:
+```javascript
+options: [{
+		key: 'left',
+		name: 'Left',
+		html: uikitButton.makeIcon('align-left', {
+			attributes: {
+				title: 'Left'
+			}
+		})
+	},
+	{
+		key: 'center',
+		name: 'Center',
+		html: uikitButton.makeIcon('align-center', {
+			attributes: {
+				title: 'Center'
+			}
+		})
+	},
+	{
+		key: 'right',
+		name: 'Right',
+		html: uikitButton.makeIcon('align-right', {
+			attributes: {
+				title: 'Right'
+			}
+		})
+	},
+	{
+		key: 'none',
+		name: 'None',
+		html: '<div class="pg-tb-button pg-tb-button-text" style="font-weight: 700; color: white;" title="None">X</div>'
+	}
+],
+```
 
 ## Advanced Custom Controls
 #### on_define
@@ -598,26 +634,24 @@ Simple example of a custom field
 //other component code
 fields: {
 	pge_add_tooltip: {
-						type: 'checkbox',
-						name: 'Add tooltip?',
-						action: 'custom',
-						value: '1',
-						get_value: function (pgel) {
-							return pgel.getAttribute('data-toggle') === 'tooltip' ? '1' : null;
-						},
-						set_value: function (pgel, value) {
-							if (value) {
-								pgel.setAttribute('data-toggle','tooltip');
-								pgel.setAttribute('data-placement', 'top');
-							} else {
-								pgel.removeAttribute('data-toggle');
-								pgel.removeAttribute('data-placement');
-							}
-							return value;
-						}
-					}
-				}
-			},
+		type: 'checkbox',
+		name: 'Add tooltip?',
+		action: 'custom',
+		value: '1',
+		get_value: function (pgel) {
+			return pgel.getAttribute('data-toggle') === 'tooltip' ? '1' : null;
+		},
+		set_value: function (pgel, value) {
+			if (value) {
+				pgel.setAttribute('data-toggle','tooltip');
+				pgel.setAttribute('data-placement', 'top');
+			} else {
+				pgel.removeAttribute('data-toggle');
+				pgel.removeAttribute('data-placement');
+			}
+			return value;
+		}
+	}
 }
 
 ```  
