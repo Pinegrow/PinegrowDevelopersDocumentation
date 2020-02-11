@@ -608,9 +608,44 @@ options: [{
 ![Icon Button Example](Images/Icon&#32;Button&#32;Example.png "Icon Button example output")
 
 ## Advanced Custom Controls
-#### on_define
+---  
+### Overview  
+Not only does the Pinegrow API provide standard controls for constructing your plugin UI, it also has several helper functions and constructors to allow the composition of custom controls with unique look. For example, the "Margin & Padding" control within the Pinegrow visual CSS editor is a custom control.  
+
+These custom controls are composed as functions that are called from the ```control``` key of one or more fields. The called function instantiates a new control using the ```PgCustomPropertyControl``` constructor. This constructor takes two keys, ```registerInputField``` and ```showInputField```, that return HTML with each of the control elements.  
+
+#### Component Field Structure  
+A field utilizing a custom control should assign the ```type``` key a value of ```custom``` and the ```action``` key a value of ```none```. As mentioned above, the ```control``` key should receive a function that returns to new control.  
+Example Usage
+```javascript
+pge_responsive_widths: {
+	type: 'custom',
+	name: 'Element Responsive Width',
+	action: 'none',
+	control: widthControl(),
+},
+```
+#### PgCustomPropertyControl(control_id)    
+This constructor takes a single argument during instantiation, ```control_id```. This ```control_id``` should be unique and best practice is to prefix with a plugin unique value to prevent conflict. It takes two key:value pairs, ```on_define``` and ```on_show```.   
+Example usage:
+```javascript
+var width_control = new PgCustomPropertControl(pge_width_control);
+```  
+#### on_define  
+This key acts as a hook that fires when the framework is first loaded. It receives a function that reserves each of the custom control elements with unique ids using the cunstructor supplied ```registerInputField```function. It typically is a loop that iterates over an array of values.
+Example usage:
+```javascript
+width_control.onDefine = function () {
+	for (var responsive_sizes = 0; responsive_sizes < pge_sizes_array.length; responsive_sizes++) {
+		var field = 'pge_sizes_' + pge_sizes_array[responsive_sizes];
+		this.registerInputField(field, createFieldDef(settings, pge_sizes_array[responsive_sizes]));
+	};
+};
+```
+#### registerInputField  
+This function 
 #### on_show
-#### registerInputField
+
 #### showInputField
 #### createFieldDef
 <a name="cas"></a>
