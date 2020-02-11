@@ -605,6 +605,7 @@ options: [{
 	}
 ],
 ```
+![Icon Button Example](Images/Icon&#32;Button&#32;Example.png "Icon Button example output")
 
 ## Advanced Custom Controls
 #### on_define
