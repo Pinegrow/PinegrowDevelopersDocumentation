@@ -618,32 +618,70 @@ These custom controls are composed as functions that are called from the ```cont
 A field utilizing a custom control should assign the ```type``` key a value of ```custom``` and the ```action``` key a value of ```none```. As mentioned above, the ```control``` key should receive a function that returns to new control.  
 Example Usage
 ```javascript
+var pge_responsive_widths = [
+		'1-1', '1-2', '1-3', '2-3', '1-4', '3-4', '1-5', '2-5', '3-5', '4-5', '1-6', '5-6', 'auto', 'expand'
+	];
+//additional component code
 pge_responsive_widths: {
 	type: 'custom',
 	name: 'Element Responsive Width',
 	action: 'none',
-	control: widthControl(),
+	control: widthControl([{
+		values: pge_responsive_widths,
+	}]),
 },
+///additional component code
 ```
 #### PgCustomPropertyControl(control_id)    
-This constructor takes a single argument during instantiation, ```control_id```. This ```control_id``` should be unique and best practice is to prefix with a plugin unique value to prevent conflict. It takes two key:value pairs, ```on_define``` and ```on_show```.   
+This constructor takes a single argument during instantiation, ```control_id```. This ```control_id``` should be unique and best practice is to prefix with a plugin unique value to prevent conflict. It takes two key:value pairs, ```onDefine``` and ```onShow```.   
 Example usage:
 ```javascript
-var width_control = new PgCustomPropertControl(pge_width_control);
+var widthControl = function (settings) {
+	var width_control = new PgCustomPropertControl(pge_width_control);
+	//remainder of widthControl function including .onDefine and .onShow keys
 ```  
 #### on_define  
-This key acts as a hook that fires when the framework is first loaded. It receives a function that reserves each of the custom control elements with unique ids using the cunstructor supplied ```registerInputField```function. It typically is a loop that iterates over an array of values.
+This key acts as a hook that fires when the framework is first loaded. It receives a function that reserves the unique ids of each of the custom control elements using the constructor supplied ```registerInputField```function. It typically is a loop that iterates over an array of values.
 Example usage:
 ```javascript
+var pge_breakpoints_array = [ 'small', 'medium', 'large', 'xlarge' ];
+var pge_responsive_widths = [
+		'1-1', '1-2', '1-3', '2-3', '1-4', '3-4', '1-5', '2-5', '3-5', '4-5', '1-6', '5-6', 'auto', 'expand'
+	];
+
 width_control.onDefine = function () {
-	for (var responsive_sizes = 0; responsive_sizes < pge_sizes_array.length; responsive_sizes++) {
-		var field = 'pge_sizes_' + pge_sizes_array[responsive_sizes];
-		this.registerInputField(field, createFieldDef(settings, pge_sizes_array[responsive_sizes]));
+	for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints_array.length; breakpoints_sizes++) {
+		var field = 'pge_sizes_' + pge_breakpoints_array[breakpoints_sizes];
+		this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints_array[breakpoints_sizes]));
 	};
 };
 ```
-#### registerInputField  
-This function 
+In this example, we are creating a control that will allow the user to select the element width from a set of responsive widths (```pge_responsive_widths```), for four hypothetical breakpoints (```pge_breakpoints_array```). The anonymous function passed to ```onDefine``` will loop over an array named ```pge_breakpoints_array```. For each of the items it will prefix with ```pge_sizes_``` and then pass that unique field name to the ```registerInputField``` function.  
+
+#### registerInputField(field_name, field_definition) 
+This function takes two arguments, ```field_name``` a unique field name that is typically proceeded with a plugin-specific prefix, and ```field_definition``` which is function that returns an object containing the key:value pairs normally found in a component field. Conventionally, this object is returned by a function named ```createFieldDef```, but can be any function that returns a unique field for each component in the custom control.  
+Example usage:  
+```javascript
+var createFieldDef = function (settings, width_name) {
+	var span_select = {
+		type: 'select',
+		name: null,
+		action: 'apply_class',
+		draggable_list: true,
+		show_empty: true,
+		options: []
+	};
+	//Generate specific Key and Name values from array
+	settings.values.forEach(function (value) {
+		var name_value = '' === value ? 'All' : value;
+		span_select.options.push({
+						key: settings.class_prefix + '-' + value + '@' + width_name,
+						name: name_value
+		});
+	});
+	return span_select;
+};
+```
 #### on_show
 
 #### showInputField
