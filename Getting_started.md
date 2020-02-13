@@ -637,6 +637,7 @@ var widthControl = function (settings) {
 		var field = 'pge_sizes_' + pge_breakpoints_array[breakpoints_sizes];
 		this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints_array[breakpoints_sizes]));
 	};
+	
 
 };
 var createFieldDef = function (settings, width_name) {
@@ -702,6 +703,15 @@ In this example, we are creating a control that will allow the user to select th
 
 #### registerInputField(field_name, field_definition) 
 This function takes two arguments, ```field_name``` a unique field name that is typically proceeded with a plugin-specific prefix, and ```field_definition``` which is function that returns an object containing the key:value pairs normally found in a component field. Conventionally, this object is returned by a function named ```createFieldDef```, but can be any function that returns a unique field for each component in the custom control.  
+
+#### on_show
+This key acts as a hook that fires when the component is selected in the tree and the custom control is shown in the properties tab. As a value it receives a function that returns HTML with each reserved control to display to the user. Each of the unique control ids reserved using the ```registerInputField``` function are passed to the ```showInputField```. 
+
+#### showInputField( $el, field_name, field_definition)  
+This function takes three arguments. The second two arguments are the same as those passed to ```registerInputField``` -```field_name``` takes a unique field name, identical to the value passed to ```registerInputField```, and ```field_definition``` takes a function that returns the control field key:value pairs. The first argument passes a jQuery-wrapped DOM element indicating the location where the control should be inserted.  
+
+#### createFieldDef
+
 Example usage:  
 ```javascript
 var createFieldDef = function (settings, width_name) {
@@ -725,10 +735,6 @@ var createFieldDef = function (settings, width_name) {
 };
 ```
 
-#### on_show
-
-#### showInputField
-#### createFieldDef
 <a name="cas"></a>
 ## Custom Actions
 ___
