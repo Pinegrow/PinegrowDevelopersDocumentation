@@ -611,12 +611,13 @@ options: [{
 ---  
 ### Overview  
 Not only does the Pinegrow API provide standard controls for constructing your plugin UI, it also has several helper functions and constructors to allow the composition of custom controls with unique look. For example, the "Margin & Padding" control within the Pinegrow visual CSS editor is a custom control.  
+![Custom Control Example](Images/Custom&#32;control.png "Example of a custom control")
 
 These custom controls are composed as functions that are called from the ```control``` key of one or more fields. The called function instantiates a new control using the ```PgCustomPropertyControl``` constructor. This constructor takes two keys, ```registerInputField``` and ```showInputField```, that register and return return HTML for each of the control elements. 
 
 Example Usage
 ```javascript
-var pge_breakpoints_array = [ 'small', 'medium', 'large', 'xlarge' ];
+var pge_breakpoints = [ 'small', 'medium', 'large', 'xlarge' ];
 var pge_breakpoint_widths = ['1-1', '1-2', '1-3', '2-3', '1-4', '3-4', '1-5', '2-5', '3-5', '4-5', '1-6', '5-6'];
 
 //additional component code
@@ -631,15 +632,21 @@ pge_breakpoint_widths: {
 ///additional component code
 
 var widthControl = function (settings) {
-	var width_control = new PgCustomPropertControl('pge_width_control');
-	width_control.onDefine = function () {
-	for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints_array.length; breakpoints_sizes++) {
-		var field = 'pge_sizes_' + pge_breakpoints_array[breakpoints_sizes];
-		this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints_array[breakpoints_sizes]));
-	};
 	
+	var width_control = new PgCustomPropertControl('pge_width_control');
+	
+	width_control.onDefine = function () {
+		for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints.length; breakpoints_sizes++) {
+			var field = 'pge_sizes_' + pge_breakpoints[breakpoints_sizes];
+			this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints[breakpoints_sizes]));
+		};
+	};
 
+	width_cotrol.onShow = function () {
+		
+	}
 };
+
 var createFieldDef = function (settings, width_name) {
 	var span_select = {
 		type: 'select',
