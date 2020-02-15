@@ -568,7 +568,7 @@ The one caveat to using this helper is that any objects supplied through the ```
 This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function receives three arguments, The first is ```color```, which receives the desired color of the icon displayed on the button. The second is ```options```, and it receives ```styles``` and ```options``` objects like the other helpers described above. The third, ```text``` can be passed to the function but is not used in the function. It has the same caveats as the ```makeColor``` function.  
 
 #### makeIcon(icon, otions)  
-This helper function receives two arguments. The first, ```icon```, is a string representing the name of the glyph to be displayed on the button. The second, ```options```, takes ```settings``` and ```attributes``` objects like the ```makeText()``` function. Unlike that function, the ```makeIcon()``` function has no predefined options. A searchable table of the glyphs can be accessed [here](#).  
+This helper function receives two arguments. The first, ```icon```, is a string representing the name of the glyph to be displayed on the button. The second, ```options```, takes ```settings``` and ```attributes``` objects like the ```makeText()``` function. Unlike that function, the ```makeIcon()``` function has no predefined options. A table of the glyph names can be accessed [here](https://bodonkey.github.io/Pinegrow-Fonts/). Please note that not all names are descriptive, some are simply numeric references. There is also a downloadable PDF file listing all of the glyphs and names that can be accessed <a href="https://raw.githubusercontent.com/BoDonkey/Pinegrow-Fonts/master/PG%20Fonts%20Cheatsheet.pdf">here</a>.  
 Example usage:
 ```javascript
 options: [{
@@ -821,7 +821,7 @@ if (!isProject) {
   This argument receives an HTML or plain text string to display to the user.
   * single
   This argument receives a boolean value and is optional. Generally only passed in if also passing a value to context. Has no impact on message display.  
-  
+
 ### pinegrow.showAlert(HTML, title, button_one_msg, button_two_msg, button_one_func, button_two_func)
 This helper function receives up to 6 arguments (all technically optional) and opens a modal that collects user input. It can display up to two buttons, each with a different function.
   * HTML
@@ -839,7 +839,9 @@ This helper function receives up to 6 arguments (all technically optional) and o
   ```javascript
   var $html = $('<h3>Do you wish to add the slider element script to your page?</h3>\
   <p>This is required for the slider element to function.</p>');
-  pinegrow.showAlert ($html, 'Add slider JavaScript?', 'Cancel', 'Yes, please!', null, function(){addScript();});
+  pinegrow.showAlert ($html, 'Add slider JavaScript?', 'Cancel', 'Yes, please!', null, function(){
+	  addScript();
+	});
   ```
   ![Example showAlert Output](Images/showAlert.png)
 
