@@ -633,7 +633,7 @@ pge_breakpoint_widths: {
 
 var widthControl = function (settings) {
 	
-	var width_control = new PgCustomPropertControl('pge_width_control');
+	var width_control = new PgCustomPropertyControl('pge_width_control');
 	
 	width_control.onDefine = function () {
 		for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints.length; breakpoints_sizes++) {
