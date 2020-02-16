@@ -22,3 +22,5 @@ In addition to adding content, the plugin API also allows for adding additional 
   * Add actions to the Actions panel
   * Hook custom functions to events like saving a page or opening a project
   * Create dynamic CMS editable areas
+
+Next: [Creating a plugin](Creating%20a%20plugin.md)
