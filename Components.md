@@ -30,11 +30,14 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
 ### PgComponentType(unique_id, display_name, {options} )
 This constructor is passed three arguments.
 
- 1) A unique id. It is best practice to add a plugin specific prefix to the id to minimize potential conflict with other plugins, e.g. pge_unique_id.
- 2) A name that is displayed in the library or actions tab.
- 3) An object that contains the HTML, controls, and or actions.
+ __unique_id__ A unique id. It is best practice to add a plugin specific prefix to the id to minimize potential conflict with other plugins, e.g. pge_unique_id.  
 
-The options object can be further split into key:value pairs that provide the main body of the component, a section object that organizes all of the controls or actions, a set of field objects within the sections object that contain the key:value pairs that describe each control or action. Each component has a single set of main body options, but can have multiple sections with multiple fields each. 
+ __display_name__ A name that is displayed in the library tab for the user to select to drag to the DOM.  
+
+ __{options}__ An object that contains the HTML, controls, and or actions.
+
+The options object can be further split into key:value pairs that provide the main body of the component, a ```section``` object that organizes all of the controls or actions, and a set of ```field``` objects within the sections object that contain the key:value pairs that describe each control or action. Each component has a single set of main body options, but can have multiple sections with multiple fields each.  
+
  #### Main Body Key:Value Pairs
  ___  
 
@@ -113,4 +116,6 @@ on_inserted: function(pgel, page) {
 This key receives a function that is fired upon alteration of the element. This function takes two arguments, the DOM element and the page. It will also fire if one of the element's decendents changes. One common use for this key is to display a message to the user or refresh the page in the case of dynamic objects.
 
 **on_moved**  
-This key receives a function that is fired upon element drag. This function receives three arguments. The first argument is the DOM element, the second is the original page location, and the third is the new location. This is an advanced key that is generally not used.  
+This key receives a function that is fired upon element drag. This function receives three arguments. The first argument is the DOM element, the second is the original page location, and the third is the new location.  
+
+Next: [Sections and Fields](Sections%20and%20Fields.md)
