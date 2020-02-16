@@ -402,3 +402,5 @@ fields: {
 ```  
 In an actual plugin an additional control to select the value of the ```data-placement``` attribute would be conditionally displayed when a tooltip was added.
 Note: along with the ```custom``` action, a ```value``` key with a value that is non-zero and defined is required. In this example the ```value``` key is passed a string, ```'1'``` but passing a non-zero integer, or any string is sufficent.  
+
+Next: [Helpers](Helpers.md)
