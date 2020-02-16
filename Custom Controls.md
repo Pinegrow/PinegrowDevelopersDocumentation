@@ -6,7 +6,7 @@ Custom controls allow for a more customized appearance for a plugin. They also a
 **toggle_buttons**  
 As briefly mentioned in the documentation of the ```select``` type, this key works along with the ```html``` key. This key takes a boolean value and if set to true it converts the dropdown list to side-by-side buttons. Reguires the use of the ```html``` key in the option list.
 
-**html**
+**html**  
 This key takes an HTML string of function that returns an HTML string as value and should be provided as the third key in an individual option object within an option array. This HTML string can contain inline styling and classes. 
 ```javascript
 options: [
@@ -36,13 +36,18 @@ var button_maker = new PgToggleButtonMaker();
 ### helper functions
 ---
 #### makeText( text, options)
-This helper function receives two arguments. The first, ```text```, is a string that will be displayed on the button. The second, ```options``` is an object key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.  
+This helper function receives two arguments.  
+**text**  
+This argument accepts a string that will be displayed on the button.
+
+**options**  
+This argument receives an object containing key:value pairs, where each value is an object composed of key:value pairs. The two primary keys are ```styles``` and ```attributes```.  
 
 ```styles```  
 This key receives an object containing key:value pairs where each key is a valid CSS property, e.g. ```color``` or ```padding```, and the value is what you want the property value set to, e.g. ```red```. These styles will be added inline to the resulting button.  
 
 ```attributes```  
-This key recieves an object containing key:value pairs where each key is an attribute name, e.g. ```data-toggle``` or ```placement```, and the value is what you want that attribute to be set, e.g. ```tooltip``` or ```left```. For an empty attribute 
+This key recieves an object containing key:value pairs where each key is an attribute name, e.g. ```data-toggle``` or ```placement```, and the value is what you want that attribute to be set, e.g. ```tooltip``` or ```left```.  
 Example usage
 ```javascript
 'options' : [
@@ -66,14 +71,43 @@ Example usage
 ```
 
 #### makeColor(color, text, options)
-This helper is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. This helper function returns a small 16px x 18px button with a colored background. It accepts three arguments. The first is ```color```, which receives the desired background color of the button. The second is ```text```, which receives an HTML string to be displayed on the button - with the caveat that the string must fit on a small button, usually a single character. The third is ```options```. Like ```makeText()```, this key can receive a ```styles``` object and an ```attribute``` object.  
-The one caveat to using this helper is that any objects supplied through the ```options``` argument are merged with the existing key:value pairs set by default in the makeColor() function. This means that the default styling and passed in color argument will be overridden by any ```style``` object passed in. No default attributes are set in the function, so there is no conflict in passing an ```attribute``` object.
+This helper is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. This helper function returns a small 16px x 18px button with a colored background. It accepts three arguments.  
+
+**color**  
+This argument receives the desired background color of the button.  
+
+**text**  
+This argument receives an HTML string to be displayed on the button - with the caveat that the string must fit on a small button, usually a single character.  
+
+**options**  
+Like ```makeText()```, this argument can receive a ```styles``` object and an ```attribute``` object.  
+
+The one caveat to using this helper is that any objects supplied through the ```options``` argument are merged with the existing key:value pairs set by default in the ```makeColor()``` function. This means that the default styling and passed in color argument will be overridden by any ```style``` object passed in. No default attributes are set in the function, so there is no conflict in passing an ```attribute``` object.
 
 #### makeColorText(color, options, text)  
-This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function receives three arguments, The first is ```color```, which receives the desired color of the icon displayed on the button. The second is ```options```, and it receives ```styles``` and ```options``` objects like the other helpers described above. The third, ```text``` can be passed to the function but is not used in the function. It has the same caveats as the ```makeColor``` function.  
+This helper function is of limited use due to the caveats noted below. It is usually better to use the makeText helper with additional styling for any button other than a solid color selector. It returns a small 16px x 18px button that is populated with an icon representing the letter "A" in the specified color. Formally, the function receives three arguments.  
+
+**color**  
+This argument receives the desired color of the icon displayed on the button.  
+
+**options**  
+ This argument receives ```styles``` and ```options``` objects like the other helpers described above.  
+
+**text**  
+This argument can be passed to the function but is not used in the function.  
+
+Overall, this function has the same caveats as the ```makeColor()``` function.  
 
 #### makeIcon(icon, otions)  
-This helper function receives two arguments. The first, ```icon```, is a string representing the name of the glyph to be displayed on the button. The second, ```options```, takes ```settings``` and ```attributes``` objects like the ```makeText()``` function. Unlike that function, the ```makeIcon()``` function has no predefined options. A table of the glyph names can be accessed [here](https://bodonkey.github.io/Pinegrow-Fonts/). Please note that not all names are descriptive, some are simply numeric references. There is also a downloadable PDF file listing all of the glyphs and names that can be accessed <a href="https://raw.githubusercontent.com/BoDonkey/Pinegrow-Fonts/master/PG%20Fonts%20Cheatsheet.pdf">here</a>.  
+This helper function creates a small button displaying the passed icon. It receives two arguments. 
+
+**icon**  
+This argument is a string representing the name of the glyph to be displayed on the button.  
+
+**options**  
+ This argument takes ```settings``` and ```attributes``` objects like the ```makeText()``` function.  
+
+Unlike the ```makeText()``` function, the ```makeIcon()``` function has no predefined options, so any that are passed will not impact the default styling. A table of the glyph names can be accessed [here](https://bodonkey.github.io/Pinegrow-Fonts/). Please note that not all names are descriptive, some are simply numeric references. There is also a downloadable PDF file listing all of the glyphs and names that can be accessed <a href="https://raw.githubusercontent.com/BoDonkey/Pinegrow-Fonts/master/PG%20Fonts%20Cheatsheet.pdf">here</a>.  
 Example usage:
 ```javascript
 options: [{
@@ -126,30 +160,59 @@ var pge_breakpoints = [ 'small', 'medium', 'large', 'xlarge' ];
 var pge_breakpoint_widths = ['1-1', '1-2', '1-3', '2-3', '1-4', '3-4', '1-5', '2-5', '3-5', '4-5', '1-6', '5-6'];
 
 //additional component code
-pge_breakpoint_widths: {
-	type: 'custom',
-	name: 'Element Breakpoint Width',
-	action: 'none',
-	control: widthControl([{
-		values: pge_breakpoint_widths,
-	}]),
-},
-///additional component code
+fields: {
+	pge_add_breakpoint_widths: {
+		type: 'custom',
+		name: 'Element Breakpoint Width',
+		action: 'none',
+		control: widthControl([{
+			values: pge_breakpoint_widths,
+		}]),
+	},
+//additional component code
 
 var widthControl = function (settings) {
 	
+	//create the new control with the PgCustomPropertyControl constructor
 	var width_control = new PgCustomPropertyControl('pge_width_control');
 	
 	width_control.onDefine = function () {
+		//loop through each of the breakpoint_sizes
 		for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints.length; breakpoints_sizes++) {
-			var field = 'pge_sizes_' + pge_breakpoints[breakpoints_sizes];
+			//generate a field name from each array value
+			var field_name = 'pge_sizes_' + pge_breakpoints[breakpoints_sizes];
+			//register each field with name and a set of controls
 			this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints[breakpoints_sizes]));
 		};
 	};
 
-	width_cotrol.onShow = function () {
-		
-	}
+	width_control.onShow = function () {
+		//create a table for our control
+		var $table = $('<table/>'});
+		//add a blank cell for row label
+		var html = '<td></td>';
+		//add name labels for each column
+		pge_breakpoints.forEach(function(size) {
+			html += '<td><label>' + size + '</label></td>';
+		});
+		//add row with labels to the table
+		var $row = $('<tr/>').html(html).appendTo($table);
+		//add next row to table
+		$row = $('<tr/>').appendTo($table);
+		//add control lable
+		var $td = $('<td/>').html('<lable>Breakpoint Widths</label>').appendTo($row);
+		//loop through each of the break_point sizes
+		for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints.length; breakpoints_sizes++) {
+			//create a data cell to hold each control field
+			$td = $('<td/>').appendTo($row);
+			//generate a field name from each array value - this should be identical to the registered name
+			var field_name = 'pge_sizes_' + pge_breakpoints[breakpoints_sizes];
+			//add each registered field to the created $td of the table
+			this.showInputField($td, field_name, createFieldDef(settings, pge_breakpoints[breakpoints_sizes]));
+		};
+		//return the newly created control to the calling field
+		return $table
+	};
 };
 
 var createFieldDef = function (settings, width_name) {
@@ -157,35 +220,36 @@ var createFieldDef = function (settings, width_name) {
 		type: 'select',
 		name: null,
 		action: 'apply_class',
-		draggable_list: true,
 		show_empty: true,
 		options: []
 	};
-	//Generate specific Key and Name values from array
+	//Generate specific Key and Name values from array passed in the settings argument
 	settings.values.forEach(function (value) {
 		span_select.options.push({
 						key: value + '@' + width_name,
 						name: value
 		});
 	});
+	//return the field control to the define method
 	return span_select;
 };
 ```
 
 #### Component Field Structure  
-A field utilizing a custom control should assign the ```type``` key a value of ```custom``` and the ```action``` key a value of ```none```. As mentioned above, the ```control``` key should receive a function that returns to new control. In order to keep components re-usable, it is often usefull to pass an object containing multiple key:values to the custom control. For simplicity, in this example we are passing an object with a single key, ```values```.
+A field utilizing a custom control should assign the ```type``` key a value of ```custom``` and the ```action``` key a value of ```none```. As mentioned above, the ```control``` key should receive a function that returns the new control. In order to keep components re-usable, it is often usefull to pass an object containing multiple key:values to the custom control. For simplicity, in this example we are passing an object with a single key, ```values```. That key receives an array ```pge_breakpoint_widths```.
 
 ```javascript
+/additional component code
+fields: {
+	pge_add_breakpoint_widths: {
+		type: 'custom',
+		name: 'Element Breakpoint Width',
+		action: 'none',
+		control: widthControl([{
+			values: pge_breakpoint_widths,
+		}]),
+	},
 //additional component code
-pge_breakpoint_widths: {
-	type: 'custom',
-	name: 'Element Breakpoint Width',
-	action: 'none',
-	control: widthControl([{
-		values: pge_breakpoint_widths,
-	}]),
-},
-///additional component code
 ```
 
 #### PgCustomPropertyControl(control_id)    
@@ -193,37 +257,84 @@ This constructor takes a single argument during instantiation, ```control_id```.
 Example usage:
 ```javascript
 var widthControl = function (settings) {
-	var width_control = new PgCustomPropertControl('pge_width_control');
+	
+	//create the new control with the PgCustomPropertyControl constructor
+	var width_control = new PgCustomPropertyControl('pge_width_control');
 	//remainder of widthControl function including .onDefine and .onShow keys
 ```  
 #### on_define  
-This key acts as a hook that fires when the framework is first loaded. It receives a function that reserves the unique ids of each of the custom control elements using the constructor supplied ```registerInputField```function. It typically is a loop that iterates over an array of values.
+This key acts as a hook that fires when the framework is first loaded. It receives a function that reserves the unique field names of each of the custom control elements using the constructor supplied ```registerInputField```function. It typically is a loop that iterates over an array of values.
 Example usage:
 ```javascript
 var pge_breakpoints_array = [ 'small', 'medium', 'large', 'xlarge' ];
 
 //additional function code
 width_control.onDefine = function () {
-	for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints_array.length; breakpoints_sizes++) {
-		var field = 'pge_sizes_' + pge_breakpoints_array[breakpoints_sizes];
-		this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints_array[breakpoints_sizes]));
+		//loop through each of the breakpoint_sizes
+		for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints.length; breakpoints_sizes++) {
+			//generate a field name from each array value
+			var field_name = 'pge_sizes_' + pge_breakpoints[breakpoints_sizes];
+			//register each field with name and a set of controls
+			this.registerInputField(field_name, createFieldDef(settings, pge_breakpoints[breakpoints_sizes]));
+		};
 	};
-};
 //additional function code
 ```
 In this example, we are creating a control that will allow the user to select the element width from a set of responsive widths (```pge_responsive_widths```)for four hypothetical breakpoints (```pge_breakpoints_array```). The anonymous function passed to ```onDefine``` will loop over an array named ```pge_breakpoints_array```. For each of the items it will prefix with ```pge_sizes_``` and then pass that unique field name to the ```registerInputField``` function. In this example that will result in the reservation of 4 control slots, one for each item in the ```pge_breakpoints_array```.
 
 #### registerInputField(field_name, field_definition) 
-This function takes two arguments, ```field_name``` a unique field name that is typically proceeded with a plugin-specific prefix, and ```field_definition``` which is function that returns an object containing the key:value pairs normally found in a component field. Conventionally, this object is returned by a function named ```createFieldDef```, but can be any function that returns a unique field for each component in the custom control.  
+This function takes two arguments:  
+**field_name**  
+This argument receives a unique field name that is typically proceeded with a plugin-specific prefix.  
+
+**field_definition**  
+This argument receives a function that returns an object containing the key:value pairs normally found in a component field. Conventionally, this object is returned by a function named ```createFieldDef```, but can be any function that returns a unique field for each component in the custom control. 
 
 #### on_show
-This key acts as a hook that fires when the component is selected in the tree and the custom control is shown in the properties tab. As a value it receives a function that returns HTML with each reserved control to display to the user. Each of the unique control ids reserved using the ```registerInputField``` function are passed to the ```showInputField```. 
+This key acts as a hook that fires when the component is selected in the tree and the custom control is shown in the properties tab. As a value it receives a function that returns HTML with each reserved control to display to the user. Each of the unique control ids reserved using the ```registerInputField``` function are passed to the ```showInputField```.
+```javascript
+width_control.onShow = function () {
+		//create a table for our control
+		var $table = $('<table/>'});
+		//add a blank cell for row label
+		var html = '<td></td>';
+		//add name labels for each column
+		pge_breakpoints.forEach(function(size) {
+			html += '<td><label>' + size + '</label></td>';
+		});
+		//add row with labels to the table
+		var $row = $('<tr/>').html(html).appendTo($table);
+		//add next row to table
+		$row = $('<tr/>').appendTo($table);
+		//add control lable
+		var $td = $('<td/>').html('<lable>Breakpoint Widths</label>').appendTo($row);
+		//loop through each of the break_point sizes
+		for (var breakpoints_sizes = 0; breakpoints_sizes < pge_breakpoints.length; breakpoints_sizes++) {
+			//create a data cell to hold each control field
+			$td = $('<td/>').appendTo($row);
+			//generate a field name from each array value - this should be identical to the registered name
+			var field_name = 'pge_sizes_' + pge_breakpoints[breakpoints_sizes];
+			//add each registered field to the created $td of the table
+			this.showInputField($td, field_name, createFieldDef(settings, pge_breakpoints[breakpoints_sizes]));
+		};
+		//return the newly created control to the calling field
+		return $table
+	};
+```
 
 #### showInputField( $el, field_name, field_definition)  
-This function takes three arguments. The second two arguments are the same as those passed to ```registerInputField``` -```field_name``` takes a unique field name, identical to the value passed to ```registerInputField```, and ```field_definition``` takes a function that returns the control field key:value pairs. The first argument passes a jQuery-wrapped DOM element indicating the location where the control should be inserted.  
+This function takes three arguments:  
+**$el**  
+This argument passes a jQuery-wrapped DOM element indicating the location where the control should be inserted.  
 
-#### createFieldDef
+**field_name**  
+This argument takes a unique field name, identical to the value passed to ```registerInputField```.  
 
+**field_definition**  
+This takes a function that returns the control field key:value pairs.   
+
+#### createFieldDef()  
+This function conventionally receives this name, but any name for this callback name can be used. It returns the a field array to the define functions, including ```type``` and ```action``` key:value pairs.  
 Example usage:  
 ```javascript
 var createFieldDef = function (settings, width_name) {
@@ -231,18 +342,17 @@ var createFieldDef = function (settings, width_name) {
 		type: 'select',
 		name: null,
 		action: 'apply_class',
-		draggable_list: true,
 		show_empty: true,
 		options: []
 	};
-	//Generate specific Key and Name values from array
+	//Generate specific Key and Name values from array passed in the settings argument
 	settings.values.forEach(function (value) {
-		var name_value = '' === value ? 'All' : value;
 		span_select.options.push({
-						key: settings.class_prefix + '-' + value + '@' + width_name,
-						name: name_value
+						key: value + '@' + width_name,
+						name: value
 		});
 	});
+	//return the field control to the define method
 	return span_select;
 };
 ```
@@ -290,5 +400,5 @@ fields: {
 }
 
 ```  
-In an actual plugin an additional plugin to select the value of the ```data-placement``` attribute would be conditionally displayed when a tooltip was added.
+In an actual plugin an additional control to select the value of the ```data-placement``` attribute would be conditionally displayed when a tooltip was added.
 Note: along with the ```custom``` action, a ```value``` key with a value that is non-zero and defined is required. In this example the ```value``` key is passed a string, ```'1'``` but passing a non-zero integer, or any string is sufficent.  
