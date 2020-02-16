@@ -1,6 +1,6 @@
-## Framework Helpers and Constructors
-___  
-Once your framework has been instantiated with descriptors there are a number of additional helpers and constructors made available through the API. Depending on the use-case only some of these may be needed. The most germane of these are listed below, with a short description of use case, arguments list, and example.  
+# Adding Templates and Resources
+## Overview
+Plugins can optionally offer base templates or resources to the user. This can include HTML and JavaScript files, for example. These resources are copied from the plugin either upon activation or when  the page is saved as a project. 
 
 ### __addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )__
 This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
@@ -8,7 +8,7 @@ To utilize this in a plugin, create a folder that contains each HTML template fi
 The folder can also contain a subfolder of resources to be used with the templates.  
 ![template folder example](./Images/folder_structure.png)  
 Arguments
-- __template_folder__ - the source of the template folder relative to the main plugin file
+- __template_folder__ - the source of the template folder relative to the main plugin file - Note: if the folder is at the same level as the main plugin file you do not need to prefix with './' to search in the current directory.
 - __done__ - typically passed null, takes a callback function that is triggered once the framework is created and is passed the framework as an argument	
 - __index__ - determines the order of framework display - typically set to 100 or higher to add the plugin framework at the end
 - __filter_func__ - receives a function that can edit the files added to the template - optional, usually not used
@@ -17,7 +17,7 @@ Arguments
    
   Typical usage:
  ```javascript
-framework.addTemplateProjectFromResourceFolder('./template', null, 100);
+framework.addTemplateProjectFromResourceFolder('template', null, 100);
 ```
   
 ### __ignore_css_files__
@@ -69,3 +69,5 @@ resource_files.forEach(function (resource_file) {
 		framework.resources.add(resource);
 	});
 ```
+
+Next: [Components](Components.md)

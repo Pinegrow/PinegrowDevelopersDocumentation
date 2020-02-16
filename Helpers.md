@@ -1,5 +1,6 @@
-## API Helper functions
-___
+# API Helper functions
+## Overview
+Once your framework has been instantiated with descriptors there are a number of additional helpers and constructors made available through the API. Depending on the use-case only some of these may be needed. The most germane of these are listed below, with a short description of use case, arguments list, and example.  
 ### pinegrow.getCurrentProject()
 This helper function returns an array of key:value pairs with information about the current project, including project folder URL. If the current page is not part of a project it returns 'null'. This helper is useful to test whether the current page is part of a project before trying to add resources.
 ### pinegrow.getSelectedPage()
