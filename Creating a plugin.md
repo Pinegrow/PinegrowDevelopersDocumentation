@@ -79,5 +79,7 @@ $(function() {
     });
 });
 ```
-As shown below, this descriptor information will only be displayed when creating a plugin that adds a template for the user to select when starting a new page or project. It will not be displayed if the plugin only adds HTML snippets, actions, modifies workflow, or adds to the CMS. 
+As shown below, this descriptor information will only be displayed when creating a plugin that adds a template for the user to select when starting a new page or project. It will not be displayed if the plugin only adds HTML snippets, actions, modifies workflow, or adds to the CMS.  
 ![Descriptors](./Images/Descriptors.png)
+
+Once your framework is created you can add optional templates and resources that are made available to the user. This is documented on the [Templates and Resources](Templates%20and%20Resources.md) page. Additionally, you can now begin adding [components](Components.md) and [sections and fields](Sections%20and%20Fields.md) that control page elements.

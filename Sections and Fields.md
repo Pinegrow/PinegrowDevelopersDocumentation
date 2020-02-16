@@ -1,7 +1,7 @@
-###Overview
+## Overview
 Sections and fields add and organize controls for components. Each section organizes a group of fields on either the Property or Actions tab of the Pinegrow Editor. Each field, in turn, encodes the control activity.
 
-#### Section Set-up 
+### Section Set-up 
 ___ 
 The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
 
@@ -35,7 +35,7 @@ ___
  **fields**  
  This key is again an object of objects. Each individual object is a control or action.
 
- #### Fields Overview
+ ### Fields Overview
  ___  
  Each field is a property control or action that modifies the element identified on the page by the main ```selector``` key. There are a number of built-in controls, such as checkboxes and drop-downs, but custom controls can also be built using API helpers. There are also several built-in actions, such as adding classes or attributes, but once again it is easy to build your own actions.  
  The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique name as key, with an object containing a number of key:value pairs.  
