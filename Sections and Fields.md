@@ -67,12 +67,12 @@ This value for this key will be displayed in either the properties or actions ta
  | image | Displays a filepicker - can be used to select any file, not just images. For images it also displays a thumbnail
  |slider| displays a range slider for numerical input|
 
-In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined either using the ```control``` or ```show``` keys. This will be further covered in the [custom controls](#ccs) section.  
+In addition to the built-in values, the ```type``` key can also accept a value of ```custom``` to allow the control to be defined either using the ```control``` or ```show``` keys. This will be further covered in the [custom controls](Custom%20Controls.md) section.  
 
 #### Checkbox-specific key:value:pairs  
 ***
 **value**  
-This key takes a value that will be added or removed from the DOM element as class or attribute or custom value when the checkbox is ticked.
+This key takes a value that will be added or removed from the DOM element as class, attribute, or custom value when the checkbox is ticked.
 
 #### Select-specific key:value pairs
 ***
@@ -93,8 +93,7 @@ fields: {
 	}, 
 }
 ```   
-A third key ```html``` is used for making custom buttons in conjunction with the ```toggle_buttons``` key and will be covered in the [custom controls](#ccs) section. 
-
+A third key ```html``` is used for making custom buttons in conjunction with the ```toggle_buttons``` key and will be covered in the [custom controls](Custom%20Controls.md) section. 
 
 **show_empty**  
 This key takes a boolean value. If true, it will allow the user to select an empty value, or no value, rather than one from the list. Depending on action or other keys, this can have the effect of removing a particular class or attribute from the DOM element.
@@ -120,8 +119,7 @@ This key takes a value for the upper end of the slider range.
 This key takes a value for the amount each tick of the slider should increment the value.  
 
 **slider_def_unit**  
-This key takes a string that indicates the type of unit the slider represents, e.g. 'px', 'ms', 'deg'  
-***
+This key is optional and takes a string that indicates the type of unit the slider represents, e.g. 'px', 'ms', 'deg'  
 ***
 
 **action**  
@@ -131,10 +129,10 @@ This key identifies what action Pinegrow should take when the user makes a selec
  	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
 
  * element_attribute  
- This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```select```, ```text```, ```image```, or ```slider``` user input.
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
 
   * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](#cas) section.  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](Custom%20Controls.md#cas) section.  
 
 An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
 ```javascript
@@ -173,32 +171,32 @@ This key takes a boolean value and determines whether or not the attribute being
 ---
 **on_changed**  
 This key takes a function that receives 9 arguments in order -  pgel, prop, value, oldValue, fieldDef, $field, eventType, fieldList, CrsaPage.
-  * pgel  
+  * __pgel__  
   This argument is the pgParserNode (the source-code representation of the current DOM node) for the selected element.  
-  * prop  
+  * __prop__  
   This argument returns the field name of the control that changed. In the previous example this would be 'shipping_method'.
-  * value  
+  * __value__  
   This argument returns the value that was selected by the user.
-  * oldValue  
+  * __oldValue__	  
   This argument returns the previous value that the user had selected. If there was no previous selection it returns 'null'.
-  * fieldDef  
+  * __fieldDef__  
   This argument returns the full field definition, including ```action``` type and ```name``` key:value pairs.
-  * $field  
+  * __$field__  
   This argument returns a jQuery element representing the field control. 
-  * eventType
+  * __eventType__  
   This argument returns the type of event that triggered the ```on_changed``` function - typically 'changed'.
-  * fieldList
+  * __fieldList__  
   This argument returns an array of all the fields and field values for the section that the triggering field is included within.
-  * CrsaPage
+  * __CrsaPage__  
   This argument returns an array of values that represent the selected page options. This includes the file URL, page name, attached stylesheets, and breakpoints.
 
 ### Conditional Field Display
 
-**show_if**
-This key determines whether a particular field will be displayed. As values it can receive either a standard if conditional that references another field in the same section, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. Functions receive two arguments, values and pgel.
-  * values
+**show_if**  
+This key determines whether a particular field will be displayed. It can receive as values either a standard if conditional that references another field in the same section, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. Functions receive two arguments, values and pgel.
+  * __values__  
   This argument is an array of all the other fields in the section and their value.
-  * pgel
+  * __pgel__  
   This argument is the pgParserNode (the source-code representation of the current DOM node) for the selected element.  
 Examples 
 ```javascript
