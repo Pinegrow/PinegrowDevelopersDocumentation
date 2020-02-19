@@ -1,8 +1,9 @@
-## Overview
-Sections and fields add and organize controls for components. Each section organizes a group of fields on either the Property or Actions tab of the Pinegrow Editor. Each field, in turn, encodes the control activity.
+## Overview  
 
+Sections and fields are passed as component keys following the main body keys in the ```PGComponentType``` options. They add and organize controls for components and are optional if the component adds only an HTML snippet. Each section organizes a group of fields on either the Property or Actions tab of the Pinegrow Editor. Each field, in turn, encodes the control activity.  
+
+---
 ### Section Set-up 
-___ 
 The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
 
 Basic ```section``` structure
@@ -20,8 +21,9 @@ sections: {
 	}
 }
 ```  
-Properties Panel from the above code when element is selected
+Properties Panel from the above code when element is selected  
 ![Output for sections example.](Images/Section_example.png)  
+![output for sections example taken on retina for testing.](Images/Section_example_retina.png)  
 
 #### Sections Key:Value pairs
 ___
