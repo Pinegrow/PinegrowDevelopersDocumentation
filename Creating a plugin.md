@@ -1,5 +1,5 @@
 # Creating a Plugin
-Pinegrow plugins are Javascript plugins that utilize the Pinegrow API to extend the capabilities of the editor. All Pinegrow plugins are instantiated by calling a function, either anonymous or named, once the Pinegrow App signals it is ready. This function gets passed the event and the ```pinegrow``` window variable as arguments.
+Pinegrow plugins are Javascript functions that utilize the Pinegrow API to extend the capabilities of the editor. All Pinegrow plugins are instantiated by calling a function, either anonymous or named, once the Pinegrow App signals it is ready. This function gets passed the event and the ```pinegrow``` window variable as arguments.
 ```javascript
 $(function() {
     $('body').one('pinegrow-ready', function(e, pinegrow) {
@@ -18,9 +18,9 @@ function myFunctionName(pinegrow){
     //plugin body
 };
 ```
-Within the body of the plugin, a new framework object is created using the ```PgFramework``` constructor and passing in a unique key that will be prefixed internally, along with a name for the framework.
+Within the body of the plugin, a new framework object is created using the ```PgFramework``` constructor and passing in a unique plugin id that will be prefixed internally, along with a name for the framework.
 ```javascript
-var framework = new PgFramework(key, name);
+var framework = new PgFramework(plugin_id, name);
 ``` 
 This framework variable can then be populated with a variety of key:value pairs. Some of these pairs are informational, like ```framework.author```, which will be displayed to the end user, or give parameters to the Pinegrow App about how the plugin is supposed to be managed or displayed. The most important of these are listed below in the section [**framework descriptive elements**](#fde). Other pairs add the individual library components, items to the property panel, or actions panel. The most important of these are listed on the [**Components**](Components.md) and [**Sections and Fields**](Sections%20and%20Fields.md).  
 
@@ -34,22 +34,22 @@ pinegrow.addFramework(framework);
 ## Framework Descriptive Elements
 ___  
 ### __type__
-This key takes a unique value identifying the framework - usually the same as the key passed into the framework, but can be used to delineate different versions of the same type. For example, all of the included versions of the Bootstrap framework has a type of 'bootstrap', but a key unique to their version - 'bs3.4.1' or 'bs4'. Defaults to the passed in key.
+This key takes a value identifying the framework - usually the same as the plugin id passed into the framework, but it can be used to delineate different versions or "types" of the same type of framework. For example, all of the included versions of the Bootstrap framework have a ```type``` of 'bootstrap', but a plugin id unique to their version - 'bs3.4.1' or 'bs4'. Defaults to the passed in key.
 ```javascript
 framework.type = 'key';
 ```
 ### __allow_single_type__
-This key takes a boolean value, usually "true", that prevents activation of multiple frameworks of the same type. Defaults to "false".
+This key takes a boolean value, usually "true", that prevents activation of multiple frameworks of the same ```type```. Defaults to "false".
 ```javascript
 framework.allow_single_type = true;
 ```
 ### __description__
-This key takes an HTML string describing the plugin and can contain a link that is displayed when creating a new page using a template from the plugin.
+This key takes an HTML or plain text string describing the plugin and can contain a link that is displayed when creating a new page using a template from the plugin.
 ```javascript
 framework.description = '<a href="http://my.website.com/">Custom plugin</a> that adds a really neat framework';
 ```
 ### __author__
-This key takes an HTML string with the author's name and is displayed when creating a new page using a template from the plugin.
+This key takes an HTML or plain text string with the author's name and is displayed when creating a new page using a template from the plugin.
 ```javascript
 framework.author = '<em>Pinegrow</em>';
 ```
@@ -69,9 +69,11 @@ Typical example of basic framework instantiation:
 $(function() {
     $('body').one('pinegrow-ready', function(e, pinegrow) {
 
-        var framework = new PgFramework('pge', 'Pinegrow Example');
+        var plugin_id = 'pge';
 
-		framework.type = 'pge';
+        var framework = new PgFramework(plugin_id, 'Pinegrow Example');
+
+		framework.type = plugin_id;
 		framework.allow_single_type = true;
 
 		framework.description = '<a href="http://my.website.com/">Custom plugin</a> that adds a really neat framework';
