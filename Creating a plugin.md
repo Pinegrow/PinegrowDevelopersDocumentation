@@ -91,4 +91,4 @@ As shown below, this descriptor information will only be displayed when creating
 
 Once your framework is created you can add optional templates and resources that are made available to the user. This is documented on the [Templates and Resources](Templates%20and%20Resources.md) page. Additionally, you can now begin adding [components](Components.md) and [sections and fields](Sections%20and%20Fields.md) that control page elements.
 
-Next: [Components](Components.md)
+Next: [Templates and Resources](Templates%20and%20Resources.md)
