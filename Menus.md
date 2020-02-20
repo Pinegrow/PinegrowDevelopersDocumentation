@@ -65,4 +65,6 @@ The next two keys work in tandem. One or both arguments must evaluate to true in
 This argument takes a boolean value. If true, then the menu will be displayed whenever the framework is loaded, irrespective of page or project. Note, this is accomplished through appending the ```$control``` to the editor through jQuery manipulation. If this function is called to early in the load there will be an error due to the targeted on page element not existing. 
 
 **func**  
-This argument takes a function that evaluates whether the menu should be loaded and should return a boolean value. For example, it can be used to determine if there is a page currently open, or if it is part of a project.
+This argument takes a function that evaluates whether the menu should be loaded and should return a boolean value. For example, it can be used to determine if there is a page currently open, or if it is part of a project.  
+
+Next: [Helpers](Helpers.md)
