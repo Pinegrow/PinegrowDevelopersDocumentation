@@ -8,24 +8,24 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
   
   How these components are added to the Pinegrow App depends on component type. For components that add property controls only, the component is added to the framework object using ```addComponentType```.
   ```javascript
-  var my_property_control = new PgComponentType( 'pg_my_control', 'My Control', {...} );
-  framework.addComponentType(my_property_control);
+  var pge_property_control = new PgComponentType( 'pge_my_control', 'My Control', {...} );
+  framework.addComponentType(pge_property_control);
   ```
   
   Components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.  
 
   Library panel addition example
   ```javascript
-  var pg_custom_lib_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
-  pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
-  framework.addLibSection(pg_custom_lib_section);
+  var pge_custom_lib_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
+  pge_custom_lib_section.setComponentTypes([pge_custom_component_one, pge_custom_component_two]);
+  framework.addLibSection(pge_custom_lib_section);
   ```
   or  
   Action panel addition example
   ```javascript
-  var pg_custom_action_section = new PgFrameworkLibSection( 'pg_my_custom_section', 'My Custom Section');
-  pg_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
-  framework.addActionsSection(pg_custom_action_section);
+  var pge_custom_action_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
+  pge_custom_lib_section.setComponentTypes([pge_custom_component_one, pge_custom_component_two]);
+  framework.addActionsSection(pge_custom_action_section);
   ```
 ---  
 
@@ -53,7 +53,7 @@ An example targeting any element with a class of either 'container' or 'containe
 ```javascript
 selector: '.container,.container-fluid',
 ```  
-A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the document.
+A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body', 'head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the document.
 ```javascript
 selector: function(pgel) {
 	if (['html', 'body', 'head', 'script'].includes(pgel.tagName)) {
