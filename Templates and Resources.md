@@ -30,7 +30,7 @@ Multiple regex strings
 framework.ignore_css_files = [/my_plugin_style\.css/i, /my_other_styling\.css/i];
 ```
 ### __PgComponentTypeResource__ ( resource_url, code )
-The PGComponentTypeResource constructor is used to add javascript and CSS files to a project. In addition to the two arguments that can be passed at instantiation, it can accept a number of additional key:value pairs.  
+The PGComponentTypeResource constructor is used to add javascript and CSS files to a project if they are not being added in the context of a template. For example, if a library of HTML snippets are being made available without template, they may still require custom CSS code. In addition to the two arguments that can be passed at instantiation, it can accept a number of additional key:value pairs.  
 
 | key | value |
 | ----| ---- |
