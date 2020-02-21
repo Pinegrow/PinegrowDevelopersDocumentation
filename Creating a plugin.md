@@ -32,9 +32,9 @@ pinegrow.addFramework(framework);
 
 <a name="fde"></a>
 ## Framework Descriptive Elements
-___  
+
 ### __type__
-This key takes a value identifying the framework - usually the same as the plugin id passed into the framework, but it can be used to delineate different versions or "types" of the same type of framework. For example, all of the included versions of the Bootstrap framework have a ```type``` of 'bootstrap', but a plugin id unique to their version - 'bs3.4.1' or 'bs4'. Defaults to the passed in key.
+This key takes a value identifying the framework - usually the same as the plugin id passed into the framework, but it can also be used to delineate different versions or "types" of the same framework. For example, all of the included versions of the Bootstrap framework have a ```type``` of 'bootstrap', but a plugin id unique to their version - 'bs3.4.1' or 'bs4'. Defaults to the passed in key.
 ```javascript
 framework.type = 'key';
 ```
