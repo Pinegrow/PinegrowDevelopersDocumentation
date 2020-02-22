@@ -8,7 +8,7 @@ To utilize this in a plugin, create a folder that contains each HTML template fi
 
 Example template folder structure:  
 
-![template folder example](Images/folder_structure.png)  
+![template folder example](Images/simple_folder_structure.png)  
 Arguments
 - __template_folder__ - the source of the template folder relative to the main plugin file - Note: if the folder is at the same level as the main plugin file you do not need to prefix with './' to search in the current directory.
 - __done__ - typically passed null, takes a callback function that is triggered once the framework is created and is passed the framework as an argument  
@@ -17,13 +17,45 @@ Arguments
 - __skip_add_to_template__ - optional, internal development use
 - __absolute_folder__ - optional, internal development use 
    
-  Simple usage:
+#### Simple usage:
  ```javascript
 framework.addTemplateProjectFromResourceFolder('template', null, 100);
 ```  
-Advanced usage - In this example there are template specific files that should only be added if a template requires that particular file.
+---
+#### Advanced usage  
 
-  
+In this example there is a template specific CSS file ("advanced.css") that should only be added if a template ("advanced.html") requires that particular file. This same method can be used to include a specific JavaScript or other file.  
+First, add the additional template, CSS and screenshot to the template folder.  
+
+![advanced template folder example](Images/advanced_folder_structure.png)  
+
+Second, pass a function to the ```addTemplateProjectFromResourceFolder``` to select any files from an array of files (```templateSpecificFiles```) to exclude from the standard template. In this example, "advanced.css".
+```javascript
+var templateSpecificFiles= ['advanced.css'];
+
+framework.addTemplateProjectFromResourceFolder('template', null, 100, function (node) {
+	var currentFilesName = templateSpecificFiles.filter(function (fileName) {
+			return node.name == fileName;
+		});
+
+		if (currentFilesName && currentFilesName.length > 0) {
+			node.required = false;
+		};
+})
+```  
+This function is passed an argument, conventionally named node, that contains information about each added resource. This function returns any resources that match a filename included in the array of file names not to include automatically and then sets the ```required``` key of the resource to false. This ensures that the file will only be saved in the project if there is a link in the HTML template.
+This same function can also be extended to place the templates in a specific order using the ```order``` key.  
+```javascript
+var templatesOrder = ['index.html', 'advanced.html'];
+
+	//Add our template into the project
+	framework.addTemplateProjectFromResourceFolder('template', null, 100, function (node) {
+		//remainder of function from above
+
+		var templateIndex = templatesOrder.indexOf(node.name);
+		if (templateIndex >= 0) node.order = templateIndex;
+	});
+```
 ### __ignore_css_files__
 This key is used if the plugin is adding a template that includes customized CSS files that shouldn't be altered. It receives an array containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing.  
 Single string
@@ -44,8 +76,8 @@ The PGComponentTypeResource constructor is used to add javascript and CSS files 
 | footer | boolean - determines whether the item should be added to the head (false) or the bottom of the body (true) -- default: false |
 | project | internal use only |
 | isFolder | boolean - used to indicate if the resource is a folder or not -- default: false|
-| source | url - typically the same as the resource_url, in some cases need to be converted to system path seperators using the Node.js [path.sep](https://nodejs.org/api/path.html#path_path_sep) -- default: null|
-| relative_url | resource file location relative to the template -- default: null |
+| source | url - typically the same as the resource_url -- default: null|
+| relative_url | resource file location relative to the template -- default: null  
 |replace| boolean (or function returning boolean) If the ```detect``` key is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically used to determine if a resource needs to be replaced during an update|
 
 Following creation and addition of key:value pairs, the new resource object is returned as a value to the framework in the ```resources``` key.
@@ -53,14 +85,10 @@ Following creation and addition of key:value pairs, the new resource object is r
 framework.resources.add(new_resource)
 ```
 
-Typical example code using file structure from above and including an example of using node.js ```path```.
+Typical example code using file structure from above.
 ```javascript
-var path = require( 'path' );
-var toLocalPath = function(file_path) {
-    return file_path.replace(/\//g, path.sep)
-};
 var resource_files = [
-		'css/my-style.css',
+		'css/index.css',
 		'js/my-js.js'
 	];
 resource_files.forEach(function (resource_file) {
