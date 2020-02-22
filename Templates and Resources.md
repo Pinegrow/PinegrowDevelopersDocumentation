@@ -1,23 +1,28 @@
 # Adding Templates and Resources
 ## Overview
-Plugins can optionally offer base templates or resources to the user. This can include HTML and JavaScript files, for example. These resources are copied from the plugin either upon activation or when  the page is saved as a project. 
+Plugins can optionally offer base templates or resources to the user. This can include HTML and JavaScript files, for example. These resources are copied from the plugin either upon activation or when the page is saved as a project. 
 
 ### __addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )__
 This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
-To utilize this in a plugin, create a folder that contains each HTML template file plus an additional subfolder that must be named "screenshots" and contain an image that is typically a screenshot of that template to display to the user. Each image must have the same name as the template file. Any other files that should be included when the template is saved as a project should also be in this folder. If desired, additional resources can be placed into a sub-folder(s).    
-![template folder example](./Images/folder_structure.png)  
+To utilize this in a plugin, create a folder that contains each HTML template file plus an additional subfolder that must be named "screenshots" and contain an image that is typically a screenshot of that template to display to the user. Each image must have the same name as the template file. Any other files that should be included when the template is saved as a project should also be in this folder. If desired, additional resources can be placed into a sub-folder(s).  
+
+Example template folder structure:  
+
+![template folder example](Images/folder_structure.png)  
 Arguments
 - __template_folder__ - the source of the template folder relative to the main plugin file - Note: if the folder is at the same level as the main plugin file you do not need to prefix with './' to search in the current directory.
-- __done__ - typically passed null, takes a callback function that is triggered once the framework is created and is passed the framework as an argument	
+- __done__ - typically passed null, takes a callback function that is triggered once the framework is created and is passed the framework as an argument  
 - __index__ - determines the order of framework display - typically set to 100 or higher to add the plugin framework at the end
-- __filter_func__ - receives a function that can edit the files added to the template - optional, usually not used
+- __filter_func__ - receives a function that can edit the files added to the template - optional, typically used when adding multiple templates, each with specific resources
 - __skip_add_to_template__ - optional, internal development use
 - __absolute_folder__ - optional, internal development use 
    
-  Typical usage:
+  Simple usage:
  ```javascript
 framework.addTemplateProjectFromResourceFolder('template', null, 100);
-```
+```  
+Advanced usage - In this example there are template specific files that should only be added if a template requires that particular file.
+
   
 ### __ignore_css_files__
 This key is used if the plugin is adding a template that includes customized CSS files that shouldn't be altered. It receives an array containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing.  
