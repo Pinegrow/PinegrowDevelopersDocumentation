@@ -245,6 +245,33 @@ This key takes a function that receives 9 arguments in order -  pgel, prop, valu
   * __CrsaPage__  
   This argument returns an array of values that represent the selected page options. This includes the file URL, page name, attached stylesheets, and breakpoints.
 
+  An example of on_changed:
+  ```javascript
+  //remainder of component
+  fields: {
+	  animation_toggle: {
+		  type: 'select',
+		  name: 'Add animation?',
+		  action: 'apply_class',
+		  show_empty: true,
+		  options: [
+			  { key: 'bounce', name: 'Bounce' },
+			  { key: 'shake', name: 'Shake' },
+			  { key: 'pulse', name: 'Pulse' }
+			  ],
+		  on_changed: function (pgel, prop, value, oldValue, fieldDef, $field, eventType, fieldList, CrsaPage){
+			  var pgp = pgel.parent;
+			  if (value) {
+				  pgp.addClass('animated');
+			  } else {
+				  pgp.removeClass('animated');
+			  }
+		  }
+	  }
+  }
+  //remainder of component code 
+  ```
+
 ### Conditional Field Display
 
 **show_if**  
