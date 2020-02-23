@@ -4,18 +4,18 @@ Sections and fields are passed as component keys following the main body keys in
 
 ---
 ## Sections Overview 
-The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
+The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. 
 
 Basic ```sections``` structure
 ```javascript
 //remainder of component code
 sections: {
-	prefix_unique_name_one: {
+	unique_name_one: {
 		name: 'Displayed Section Name One',
 		default_closed: true, \\optional
 		fields:{...},
 	},
-	prefix_unique_name_two: {
+	unique_name_two: {
 		name: 'Displayed Section Name Two',
 		default_closed: false, \\optional
 		fields: {...},
@@ -41,15 +41,15 @@ ___
 ---
  ## Fields Overview
  Each field is a property control or action that modifies the element identified on the page by the main ```selector``` key. There are a number of built-in controls, such as checkboxes and drop-downs, but custom controls can also be built using API helpers. There are also several built-in actions, such as adding classes or attributes, but once again it is easy to build your own actions.  
- The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique id (typically prefixed to prevent conflicts) as key, with an object containing a number of key:value pairs as value.  
+ The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique id as key, with an object containing a number of key:value pairs as value.  
  Basic fields structure
  ```javascript
  //remainder of component code
  fields: {
-	 pge_field_one: {
+	 field_one: {
 		 ...
 	 },
-	 pge_field_two: {
+	 field_two: {
 		 ...
 	 }
  }
