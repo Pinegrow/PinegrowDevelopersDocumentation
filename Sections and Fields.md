@@ -69,7 +69,7 @@ This key identifies what action Pinegrow should take when the user makes a selec
  	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
 
  * element_attribute  
- This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key along with the ```empty_attribute``` key to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
 
   * custom  
   This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](Custom%20Controls.md#cas) section.  
@@ -111,6 +111,9 @@ fields: {
 
 **empty_attribute**  
 This key takes a boolean value and determines whether or not the attribute being added to the DOM element requires a value. For example, in some cases an attribute of 'disabled' might be added to an element.  
+
+**attribute_keep_if_empty**  
+This key takes a boolean value. It is set to true if an attribute is valid whether or not it has a value. For example, the UIkit framework has an attribute ```uk-sticky``` that is valid as an empty attribute (essentially evaluating to true) or with data passed in like ```uk-sticky="offset: 50"```. 
 
 ---
 
