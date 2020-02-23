@@ -95,7 +95,7 @@ resource_files.forEach(function (resource_file) {
 		var file = framework.getResourceFile('template/resources/' + resource_file);
 		var resource = new PgComponentTypeResource(file);
 		resource.relative_url = resource_file;
-		resource.source = toLocalPath(file);
+		resource.source = file;
 		resource.footer = resource_file.indexOf('.js') >= 0;
 		resource.type = resource_file.indexOf('.js') >= 0 ? 'application/javascript' : 'text/css';
 		framework.resources.add(resource);
