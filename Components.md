@@ -85,7 +85,7 @@ An example targeting any element with a class of either 'container' or 'containe
 ```javascript
 selector: '.container,.container-fluid',
 ```  
-A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the document.
+A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body', 'head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the document.
 ```javascript
 selector: function(pgel) {
 	if (['html', 'body', 'head', 'script'].includes(pgel.tagName)) {

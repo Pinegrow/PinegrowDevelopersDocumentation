@@ -66,7 +66,7 @@ This value for this key will be displayed in either the properties or actions ta
 This key identifies what action Pinegrow should take when the user makes a selection with the control. It is used in conjunction with one or more additional keys
 
  * apply_class  
- 	This ```action``` value indicates that the value being supplied from the control should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
+ 	This ```action``` value indicates that the user input or value of the ```value``` key should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
 
  * element_attribute  
  This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key along with the ```empty_attribute``` key to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
