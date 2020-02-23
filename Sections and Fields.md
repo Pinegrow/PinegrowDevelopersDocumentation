@@ -4,18 +4,18 @@ Sections and fields are passed as component keys following the main body keys in
 
 ---
 ## Sections Overview 
-The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. It is best practice to add a plugin-specific prefix to the unique name of each section to insure it doesn't conflict with another plugin.  
+The ```sections``` key receives an object of objects. Each object that it receives is a key:value pair with a unique name for key and an object for value. This object in turn has two required and one optional key:value pairs that define a set of controls. 
 
 Basic ```sections``` structure
 ```javascript
 //remainder of component code
 sections: {
-	prefix_unique_name_one: {
+	unique_name_one: {
 		name: 'Displayed Section Name One',
 		default_closed: true, \\optional
 		fields:{...},
 	},
-	prefix_unique_name_two: {
+	unique_name_two: {
 		name: 'Displayed Section Name Two',
 		default_closed: false, \\optional
 		fields: {...},
@@ -41,15 +41,15 @@ ___
 ---
  ## Fields Overview
  Each field is a property control or action that modifies the element identified on the page by the main ```selector``` key. There are a number of built-in controls, such as checkboxes and drop-downs, but custom controls can also be built using API helpers. There are also several built-in actions, such as adding classes or attributes, but once again it is easy to build your own actions.  
- The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique id (typically prefixed to prevent conflicts) as key, with an object containing a number of key:value pairs as value.  
+ The ```fields``` key receives an object, that contains one or more individual field objects. Each individual field object has a unique id as key, with an object containing a number of key:value pairs as value.  
  Basic fields structure
  ```javascript
  //remainder of component code
  fields: {
-	 pge_field_one: {
+	 field_one: {
 		 ...
 	 },
-	 pge_field_two: {
+	 field_two: {
 		 ...
 	 }
  }
@@ -69,7 +69,7 @@ This key identifies what action Pinegrow should take when the user makes a selec
  	This ```action``` value indicates that the user input or value of the ```value``` key should either be added or removed as a class on the element. This value can be supplied from a dropdown using the ```options``` key, from the textbox of a ```text``` type input, or from the ```value``` key when using a ```checkbox``` type.  
 
  * element_attribute  
- This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key alone to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
+ This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key along with the ```empty_attribute``` key to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
 
   * custom  
   This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](Custom%20Controls.md#cas) section.  
@@ -111,6 +111,9 @@ fields: {
 
 **empty_attribute**  
 This key takes a boolean value and determines whether or not the attribute being added to the DOM element requires a value. For example, in some cases an attribute of 'disabled' might be added to an element.  
+
+**attribute_keep_if_empty**  
+This key takes a boolean value. It is set to true if an attribute is valid whether or not it has a value. For example, the UIkit framework has an attribute ```uk-sticky``` that is valid as an empty attribute (essentially evaluating to true) or with data passed in like ```uk-sticky="offset: 50"```. 
 
 ---
 

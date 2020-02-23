@@ -1,30 +1,32 @@
 ## Creating Components  
-### Overview  
-The ``` PgComponentType ``` constructor is the main way to add new snippets, property controls, and actions to the Pinegrow App. This constructor creates an object with unique id and display name that can be broken down into three sections.  
+---
+## Overview  
+The ``` PgComponentType ``` constructor is the main way to add new snippets, property controls, and actions to the Pinegrow App. This constructor creates an object with a unique id, display name, and options that can be broken down into three sections.  
 
   1) A main body that contains key:value pairs that contain an optional HTML snippet, give information on how to identify the component for property controls or actions to target on the page, and data on how to display the element on the tree.  
   2) Objects passed through the ```sections``` key that identify one or more groups of property controls or actions.
   3) Objects passed through the ```fields``` key that are individual property controls or actions.
   
-  How these components are added to the Pinegrow App depends on component type. For components that add property controls only, the component is added to the framework object using ```addComponentType```.
+  How the component is added to the Pinegrow App depends on component type. For components that add property controls only, the component is added to the framework using ```addComponentType``` in conjunction with the ```addPrefix(plugin_id)``` function.
   ```javascript
-  var pge_property_control = new PgComponentType( 'pge_my_control', 'My Control', {...} );
-  framework.addComponentType(pge_property_control);
+  var my_property_control = new PgComponentType( 'my_control', 'My Control', {...} );
+  my_property_control.addPrefix(plugin_id);
+  framework.addComponentType(my_property_control);
   ```
   
   Components that add reusable HTML snippets or actions require an additional constructor, ```PgFrameworkLibSection```. This constructor creates a new panel that can be displayed in the Library or Actions Tab. Components for each panel are identified by passing an array of components using ```setComponentTypes```. This object is then added to the framework object using either ```addLibSection``` to pass it to the Library tab, or ```addActionsSection``` to display it on the Actions Tab.  
 
   Library panel addition example
   ```javascript
-  var pge_custom_lib_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
-  pge_custom_lib_section.setComponentTypes([pge_custom_component_one, pge_custom_component_two]);
-  framework.addLibSection(pge_custom_lib_section);
+  var custom_lib_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
+  pge_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
+  framework.addLibSection(custom_lib_section);
   ```
   or  
   Action panel addition example
   ```javascript
   var pge_custom_action_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
-  pge_custom_lib_section.setComponentTypes([pge_custom_component_one, pge_custom_component_two]);
+  pge_custom_action_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
   framework.addActionsSection(pge_custom_action_section);
   ```
 ---  
@@ -32,14 +34,44 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
 ### PgComponentType(unique_id, display_name, {options} )
 This constructor is passed three arguments.
 
- __unique_id__ A unique id. It is best practice to add a plugin specific prefix to the id to minimize potential conflict with other plugins, e.g. pge_unique_id.  
+ __unique_id__ An id that is unique within the plugin.
 
  __display_name__ A name that is displayed in the library tab for the user to select to drag to the DOM. For components that add only property controls or actions this key can be passed an empty string. 
 
- __{options}__ An object that contains the HTML, controls, and or actions.
+ __{options}__ An object that contains the HTML, controls, and or actions. These options will be covered in more detail [in the {options} section](#okv) of this document.  
+### addPrefix(plugin_id)  
+This function is added as a key to the ```PgComponentType``` object. It adds prefixes to the unique_id of the component , as well as the sections and fields defined within the component. THis ensures that there aren't any conflicts with other plugins. This must be called before addition of the component using ```addComponentType```. It is passed a single argument.
 
-The options object can be further split into key:value pairs that provide the main body of the component, a ```sections``` object that organizes all of the controls or actions, and a set of ```fields``` objects within the sections object that contain the key:value pairs that describe each control or action. Each component has a single set of main body options, but can have multiple sections with multiple fields each.  
+__plugin_id__ An id unique to the plugin. It typically is the same as the plugin_id used when creating the framework.  
 
+### addComponentType(component)  
+This function adds the component defined by the ```PgComponentType``` constructor to the framework. It takes a single argument.
+
+__component__ This argument is the name of the component object.
+
+### PgFrameworkLibSection(unique_id, display_name)
+This constructor creates a new object for addition to either the HTML snippet library or the actions panels. This object is created after individual components are defined using the ```PgComponentType``` constructor. It receives two arguments.
+
+__uniqueID__ An id that is unique within the plugin and should be prefixed with the plugin_id to prevent conflicts.
+
+__display_name__ A name that will be displayed as the title of the added section in the library or actions panel.
+
+### setComponentTypes(components)
+This function takes an array of component names (defined using the ```PgComponentType``` constructor) to be added to the section object created with the ```PgFrameworkLibSection``` constructor.
+
+### addLibSection(section)
+This function adds the passed section name to the library panel of the framework.
+
+### addActionsSection(section)
+This function adds the passed section name to the Actions panel of the framework.
+
+---
+
+<a name="okv"></a>
+## PgComponentType {options}  
+---
+### Overview  
+The options object of the ```PgComponentType``` constructor can be further split into key:value pairs that provide the main body of the component, a ```sections``` object that organizes all of the controls or actions, and a set of ```fields``` objects within the sections object that contain the key:value pairs that describe each control or action. Each component has a single set of main body options, but can have multiple sections with multiple fields each.  
  #### Main Body Key:Value Pairs
  ___  
 
