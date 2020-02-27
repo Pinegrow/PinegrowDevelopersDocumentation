@@ -34,27 +34,27 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
 ### PgComponentType(unique_id, display_name, {options} )
 This constructor is passed three arguments.
 
- __unique_id__ An id that is unique within the plugin.
+  * __unique_id__ An id that is unique within the plugin.
 
- __display_name__ A name that is displayed in the library tab for the user to select to drag to the DOM. For components that add only property controls or actions this key can be passed an empty string. 
+   * __display_name__ A name that is displayed in the library tab for the user to select to drag to the DOM. For components that add only property controls or actions this key can be passed an empty string. 
 
- __{options}__ An object that contains the HTML, controls, and or actions. These options will be covered in more detail [in the {options} section](#okv) of this document.  
+   * __{options}__ An object that contains the HTML, controls, and or actions. These options will be covered in more detail [in the {options} section](#okv) of this document.  
 ### addPrefix(plugin_id)  
 This function is added as a key to the ```PgComponentType``` object. It adds prefixes to the unique_id of the component , as well as the sections and fields defined within the component. THis ensures that there aren't any conflicts with other plugins. This must be called before addition of the component using ```addComponentType```. It is passed a single argument.
 
-__plugin_id__ An id unique to the plugin. It typically is the same as the plugin_id used when creating the framework.  
+  * __plugin_id__ An id unique to the plugin. It typically is the same as the plugin_id used when creating the framework.  
 
 ### addComponentType(component)  
 This function adds the component defined by the ```PgComponentType``` constructor to the framework. It takes a single argument.
 
-__component__ This argument is the name of the component object.
+  * __component__ This argument is the name of the component object.
 
 ### PgFrameworkLibSection(unique_id, display_name)
 This constructor creates a new object for addition to either the HTML snippet library or the actions panels. This object is created after individual components are defined using the ```PgComponentType``` constructor. It receives two arguments.
 
-__uniqueID__ An id that is unique within the plugin and should be prefixed with the plugin_id to prevent conflicts.
+  * __uniqueID__ An id that is unique within the plugin and should be prefixed with the plugin_id to prevent conflicts.
 
-__display_name__ A name that will be displayed as the title of the added section in the library or actions panel.
+  * __display_name__ A name that will be displayed as the title of the added section in the library or actions panel.
 
 ### setComponentTypes(components)
 This function takes an array of component names (defined using the ```PgComponentType``` constructor) to be added to the section object created with the ```PgFrameworkLibSection``` constructor.
@@ -85,7 +85,7 @@ An example targeting any element with a class of either 'container' or 'containe
 ```javascript
 selector: '.container,.container-fluid',
 ```  
-A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body','head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the document.
+A example of a more complex selector using a javascript function. Note: the function can be passed a single argument that is conventionally named ```pgel```. This argument contains the source-code representation of the current DOM node (pgParserNode). This example function checks to see if the tag of the node is NOT 'html', 'body', 'head', or 'script'. As a side note, ```pgel.tagName``` will always return lowercase, irrespective of the case in the document.
 ```javascript
 selector: function(pgel) {
 	if (['html', 'body', 'head', 'script'].includes(pgel.tagName)) {
