@@ -143,7 +143,7 @@ This key receives a function that is fired upon element insertion into the tree.
 selector: '[slider]',
 code: '...',
 on_inserted: function(pgel, page) {
-	crsaQuickMessage( 'Refresh page to see changes', 3000 );
+	pinegrow.showQuickMessage( 'Refresh page to see changes', 3000 );
 },
 ...
 ```
