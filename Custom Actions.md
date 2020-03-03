@@ -14,6 +14,7 @@ image | file name
 slider | current slider value
 ### set_value
 This key accepts a function as value. This function receives two arguments, ```pgel```, which is the pgParserNode (the source-code representation of the current DOM node) for the selected element, and ```value```, which is the user selected value from the field. It is the responsability of this function to manipulate the DOM in response to the user selection.  
+
 Simple example of a custom field
 ```javascript
 //other component code
