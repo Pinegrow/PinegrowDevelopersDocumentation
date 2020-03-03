@@ -71,3 +71,5 @@ This key takes a function as value and calls the supplied function when a page w
 This key takes a function as value and calls the supplied function when a page with the plugin activated is changed.
 ### on_page_closed
 This key takes a function as value and calls the supplied function when a page with the plugin activated is closed.  
+
+Next: [Custom Controls](Custom%20Controls.md)
