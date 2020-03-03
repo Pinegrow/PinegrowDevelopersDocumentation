@@ -1,11 +1,11 @@
 # Adding Templates and Resources
 ## Overview
-Plugins can optionally offer a variety of resources to the user. This can include HTML, CSS, and JavaScript files. These resources are copied from the plugin either upon activation of the library from the "Manage libraries & plugins..." menu or when a plugin HTML template is saved as a project.  
+Plugins can optionally offer a variety of resources to the user. This can include HTML, CSS, PHP, and JavaScript files, basically any file that you want to use in your project. These resources are copied from the plugin either upon activation of the library from the "Manage libraries & plugins..." menu or when a plugin HTML template is saved as a project.  
 
 ## Templates
 ---
 ## Overview
-Templates are optional pre-made HTML pages that can include anything from a basic HTML document, to a page that is already populated with a large amount of code. Typically, at minimum, a template will contain the basic HTML boilerplate, plus plugin specific CSS links (either local or remote) and/or JavaScript (either in page scripts or links to local or remote files). These templates are added using the ```addTemplateProjectFromResourceFolder``` constructor.
+Templates are optional pre-made HTML pages that can include anything from a basic document, to a page that is already populated with a large amount of code. Typically, at minimum, a template will contain the basic HTML boilerplate, plus plugin specific CSS links (either local or remote) and/or JavaScript (either in page scripts or links to local or remote files). These templates are added using the ```addTemplateProjectFromResourceFolder``` constructor.
 ### __addTemplateProjectFromResourceFolder ( template_folder, done, index, filter_func, skip_add_to_templates, absolute_folder )__
 This function is used when constructing a plugin that provides one or more templates as a base for the user. For example, the stock Bootstrap 4 framework provides 19 starter templates when the user clicks on "New page or project".  
 
@@ -30,7 +30,7 @@ framework.addTemplateProjectFromResourceFolder('template', null, 100);
 #### Advanced usage  
 
 In this example there is a template specific CSS file ("advanced.css") that should only be added if a template ("advanced.html") requires that particular file. This same method can be used to include a specific JavaScript or other file.  
-First, add the additional template, CSS and screenshot to the template folder.  
+First, add the additional template, CSS, and screenshot to the template folder.  
 
 ![advanced template folder example](Images/advanced_folder_structure.png)  
 
@@ -64,10 +64,20 @@ var templatesOrder = ['index.html', 'advanced.html'];
 ## Resources
 ---  
 ## Overview  
-Plugin resources are CSS and JavaScript files that can be loaded onto any page that activates the plugin. They can be provided as local files that get copied into the project folder, or as remote links that get added into the current HTML page(s). Additionally, resources can be used to upgrade existing in project or on page files and links.
+Plugin resources are CSS and JavaScript files that can be loaded onto any page that activates the plugin. They can be provided as local files that get copied into the project folder, or as remote links that get added into the current HTML page(s). Additionally, resources can be used to upgrade existing project or page files and links.
 
 ### __PgComponentTypeResource__ ( resource_url, code )
-The PGComponentTypeResource constructor is used to add javascript and CSS files or links to a project. In addition to the two arguments that can be passed at instantiation, it can accept a number of additional key:value pairs.  
+The PGComponentTypeResource constructor is used to add javascript and CSS files or links to a project. It recieves addition to the two arguments:  
+  * __resource_url__ This argument takes the URL of the file or folder to be added. For local files the URL can be generated using a helper function, ```framework.getResourceUrl(path_to_resource)```.  
+  * __code__ This argument is typically not used and defaults to null.  
+  
+  ### getResourceUrl(path_to_resource)
+  This helper function takes the path to the resource file or folder relative to the base plugin file.  
+  ```javascript
+  framework.getResourceUrl('template/resources/css/style.css');
+  ```  
+
+  In addition to the arguments passed in at instantiation it can accept a number of additional key:value pairs.  
 
 | key | value |
 | ----| ---- |
@@ -79,6 +89,8 @@ The PGComponentTypeResource constructor is used to add javascript and CSS files 
 | source | url - typically the same as the resource_url -- default: null|
 | relative_url | resource file location relative to the template -- default: null  
 |replace| boolean (or function returning boolean) If the ```detect``` key is used and a match is found then this indicates if the found resource should be replaced with the file at resource_url -- default: false -- typically used to determine if a resource needs to be replaced during an update|
+
+
 
 The newly created resource object is returned as a value to the framework in the ```resources``` key.
 ```javascript
@@ -92,7 +104,7 @@ var resource_files = [
 		'js/my-js.js'
 	];
 resource_files.forEach(function (resource_file) {
-		var file = framework.getResourceFile('template/resources/' + resource_file);
+		var file = framework.getResourceUrl('template/resources/' + resource_file);
 		var resource = new PgComponentTypeResource(file);
 		resource.relative_url = resource_file;
 		resource.source = file;
@@ -118,7 +130,7 @@ framework.resources.add(resource);
 ---
 
 ### __ignore_css_files__
-This key is used if the plugin is including customized CSS files within a template or as a stand-alone resource that shouldn't be altered by the user. It receives an array containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing under the stylesheet dropdown.  
+This key is used if the plugin includes customized CSS files within a template or as a stand-alone resource that shouldn't be altered by the user. It receives an array containing a single [regex string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) or multiple comma-separated regex strings. Any CSS file in the page resources that is matched by these string will be locked for editing under the stylesheet dropdown.  
 Single string
 ```javascript
 framework.ignore_css_files = [/my_plugin_style\.css/i];
