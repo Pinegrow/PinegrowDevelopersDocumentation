@@ -11,14 +11,14 @@ Basic ```sections``` structure
 //remainder of component code
 sections: {
 	unique_name_one: {
-		name: 'Displayed Section Name One',
+		name: 'Displayed Section Name One', \\required
 		default_closed: true, \\optional
-		fields:{...},
+		fields:{...}, \\required
 	},
 	unique_name_two: {
-		name: 'Displayed Section Name Two',
+		name: 'Displayed Section Name Two', \\required
 		default_closed: false, \\optional
-		fields: {...},
+		fields: {...}, \\required
 	}
 }
 //remainder of component code
@@ -72,7 +72,7 @@ This key identifies what action Pinegrow should take when the user makes a selec
  This ```action``` value indicates that the value being supplied from the control should be either added or removed as an attribute of the element. This value can be supplied from the ```attribute``` key along with the ```empty_attribute``` key to produce an empty attribute, or a combination of the ```attribute``` key and ```value``` key or ```select```, ```text```, ```image```, or ```slider``` user input.
 
   * custom  
-  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](Custom%20Controls.md#cas) section.  
+  This ```action``` value indicates that a custom function, supplied by the ```set_value``` key, should be used to modify the selected element. Both ```set_value``` and ```get_value``` will be covered in the [custom actions](Custom%20Actions.md) section.  
 
 An example of the ```apply_class``` action. This example would add the ```btn-lg``` class to the selected element when the user ticks the checkbox.
 ```javascript
@@ -109,10 +109,10 @@ fields: {
 ```  
 #### Element_attribute-specific key:value pairs  
 
-**empty_attribute**  
+  * **empty_attribute**  
 This key takes a boolean value and determines whether or not the attribute being added to the DOM element requires a value. For example, in some cases an attribute of 'disabled' might be added to an element.  
 
-**attribute_keep_if_empty**  
+  * **attribute_keep_if_empty**  
 This key takes a boolean value. It is set to true if an attribute is valid whether or not it has a value. For example, the UIkit framework has an attribute ```uk-sticky``` that is valid as an empty attribute (essentially evaluating to true) or with data passed in like ```uk-sticky="offset: 50"```. 
 
 ---
@@ -132,20 +132,20 @@ In addition to the built-in values, the ```type``` key can also accept a value o
 
 #### Checkbox-specific key:value:pairs  
 ***
-**value**  
+  * **value**  
 This key takes a value (numeric or string) that will be added or removed from the DOM element as class, attribute, or custom value when the checkbox is ticked.
 
-**negvalue**  
+  * **negvalue**  
 This key is optional and takes a value (numeric or string) that will be added or removed from the DOM element as a class, attribute, or custom value when the checkbox is unticked.
 
 Basically, if a ```negvalue``` key is present, the checkbox will act similiar to the Jquery ```.toggleClass()``` and toggle between the two values. However, if the ```negvalue``` key value is already present on the element, it will **NOT** be removed on the first click. Instead, the ```value``` key value will be added, and on the next click it will behave as expected.
 
 #### Select-specific key:value pairs
 ***
-**options**  
+  * **options**  
 This key supplies the list of choices to be displayed in the ```select``` dropdown list. They are supplied as an array of choices, where each choice is an object with at least two key:value pairs.  
-   * name - this key takes a string that is displayed to the user in the select dropdown
-   * key - this key takes a string that is the value returned when the user selects that option
+     * name - this key takes a string that is displayed to the user in the select dropdown
+     * key - this key takes a string that is the value returned when the user selects that option
 ```javascript
 //remainder of component code
 fields: {
@@ -167,42 +167,42 @@ Output of example above.
 
 A third key ```html``` is used for making custom buttons in conjunction with the ```toggle_buttons``` key and will be covered in the [custom controls](Custom%20Controls.md) section. 
 
-**show_empty**  
+  * **show_empty**  
 This key takes a boolean value. If true, it will allow the user to select an empty value, or no value, rather than one from the list. Depending on action or other keys, this can have the effect of removing a particular class or attribute from the DOM element.  
 
-**default_value**  
-This key allows a default value from the options list to be pre-selected. As value it takes the value of the desired ```key``` from the options list. FOr example, in the above code you could add:
+  * **default_value**  
+This key allows a default value from the options list to be pre-selected. As value it takes the value of the desired ```key``` from the options list. For example, in the above code you could add:
 ```javascript
 default_value: 'btn-group-lg',
 ```
 #### Text-specific key:value pairs  
 ***
-**live_update**  
+  * **live_update**  
 This key takes a boolean value. If set to true, the targeted element will update in real-time as the user types. If set to false, the element will not update until the user hits enter.  
 
-**placeholder**  
+  * **placeholder**  
 This key is semi-unique to the ```text``` and ```slider``` types. In the context of the ```text``` type it takes a string that will be displayed in the text box prior to user input. Note: this does not set a default value for the text box.
 
 #### Image-specific key:value pairs  
 ***
-**file_picker**  
+  * **file_picker**  
 This key takes a boolean value. If true it will display a folder icon at the right of the input box, along with a thumbnail if the selected file is an image.  
 
 #### Slider-specific key:value pairs  
 ***
-**slider_min**  
+  * **slider_min**  
 This key takes a value for the lower end of the slider range.  
 
-**slider_max**  
+  * **slider_max**  
 This key takes a value for the upper end of the slider range.  
 
-**slider_step**  
+  * **slider_step**  
 This key takes a value for the amount each tick of the slider should increment the value.  
 
-**slider_def_unit**  
+  * **slider_def_unit**  
 This key is optional and takes a string that indicates the type of unit the slider represents, e.g. 'px', 'ms', 'deg'  
 
-**placeholder**  
+  * **placeholder**  
 In the context of the ```slider``` type, this key takes a numeric value to display to the user prior to user input. Note, this does not set a default value for the field.  
 
 Simple slider example for setting section width from 20% to 100% in 5% increments.
@@ -245,7 +245,7 @@ This key takes a function that receives 9 arguments in order -  pgel, prop, valu
   * __CrsaPage__  
   This argument returns an array of values that represent the selected page options. This includes the file URL, page name, attached stylesheets, and breakpoints.
 
-  An example of on_changed:
+  An example of on_changed - this will add the selected class to the parent element:
   ```javascript
   //remainder of component
   fields: {
@@ -275,7 +275,7 @@ This key takes a function that receives 9 arguments in order -  pgel, prop, valu
 ### Conditional Field Display
 
 **show_if**  
-This key determines whether a particular field will be displayed. It can receive as values either a standard if conditional that references another field in the same section, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. Functions receive two arguments, values and pgel.
+This key determines whether a particular field will be displayed. It can receive as values either a standard if conditional that references another field in the same section, or a function that can reference multiple fields or other values from the element and returns TRUE if it should be shown. Functions receive two arguments in order, ```values``` and ```pgel```.
   * __values__  
   This argument is an array of all the other fields in the section and their value.
   * __pgel__  
