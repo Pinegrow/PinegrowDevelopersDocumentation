@@ -2,7 +2,8 @@
 ___ 
 There are two major ways to add new menu items through the Pinegrow API. The first allows for addition of new menu items to the "Page" main menu using the framework key ```on_page_menu``` and passing in the menu items. The second allows for the addition of an entirely new menu using the ```addPluginControlToTopbar()``` helper function.
 
-### .on_page_menu(page, items)  
+### .on_page_menu(page, items)
+--- 
 This framework key is used for inserting additional items into the "Page" menu. The additional items will be added after the "Manage Google Fonts..." menu item and will only be visible when a page is opened in the editor. This key receives a function that is passed two arguments, ```page``` and ```items```.  
 The ```items``` argument is an array of objects containing the items to be added to the menu. There are three different objects that ```items``` accepts.  
 
@@ -14,7 +15,7 @@ The ```items``` argument is an array of objects containing the items to be added
  ```type: 'header',```  
  ```label: 'Any string'```  
  This object will cause Pinegrow to add a non-clickable header to  the dropdown menu using the string passed as the ```label``` value.
- 3) An object with up two key:value pairs:  
+ 3) An object with two key:value pairs:  
  ```label: 'Any string',```  
  ```action: function(){/*action to be performed when item is selected}```  
  This object will display the ```label``` key value in the menu and execute the function passed in the ```action``` key value when the user clicks the menu item. 
@@ -39,7 +40,8 @@ The ```items``` argument is an array of objects containing the items to be added
  }
  ```
 
-## addPluginControlToTopbar( framework, $control, show_always, func)
+### addPluginControlToTopbar( framework, $control, show_always, func)
+---
 This helper will create a new menu and insert it prior to the "Support" menu in the main header. It accepts four arguments, with the first two being required and the second two optional.  
 
 **framework**  
@@ -66,5 +68,16 @@ This argument takes a boolean value. If true, then the menu will be displayed wh
 
 **func**  
 This argument takes a function that evaluates whether the menu should be loaded and should return a boolean value. For example, it can be used to determine if there is a page currently open, or if it is part of a project.  
+
+Example of adding a menu only if there is a page open that is part of a project that utilizes our custom framework
+```javascript
+pinegrow.addPluginControlToTopbar(framework, $menu, false, function () {
+		var thePage = pinegrow.getSelectedPage();
+		var theProject = pinegrow.getCurrentProject();
+
+		if (thePage && thePage.hasFramework(framework) && theProject) return true;
+		return false;
+	});
+```
 
 Next: [Helpers](Helpers.md)
