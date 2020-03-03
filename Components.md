@@ -18,9 +18,9 @@ The ``` PgComponentType ``` constructor is the main way to add new snippets, pro
 
   Library panel addition example
   ```javascript
-  var custom_lib_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
+  var pge_custom_lib_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
   pge_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
-  framework.addLibSection(custom_lib_section);
+  framework.addLibSection(pge_custom_lib_section);
   ```
   or  
   Action panel addition example
@@ -39,10 +39,16 @@ This constructor is passed three arguments.
    * __display_name__ A name that is displayed in the library tab for the user to select to drag to the DOM. For components that add only property controls or actions this key can be passed an empty string. 
 
    * __{options}__ An object that contains the HTML, controls, and or actions. These options will be covered in more detail [in the {options} section](#okv) of this document.  
+  
 ### addPrefix(plugin_id)  
-This function is added as a key to the ```PgComponentType``` object. It adds prefixes to the unique_id of the component , as well as the sections and fields defined within the component. THis ensures that there aren't any conflicts with other plugins. This must be called before addition of the component using ```addComponentType```. It is passed a single argument.
+This function is added as a key to the ```PgComponentType``` object. It adds prefixes to the unique_id of the component , as well as the sections and fields defined within the component. This ensures that there aren't any conflicts with other plugins. This must be called before addition of the component using ```addComponentType```. It is passed a single argument.
 
   * __plugin_id__ An id unique to the plugin. It typically is the same as the plugin_id used when creating the framework.  
+  ```javascript
+  var my_property_control = new PgComponentType( 'my_control', 'My Control', {...} );
+  my_property_control.addPrefix(plugin_id);
+  framework.addComponentType(my_property_control);
+  ```
 
 ### addComponentType(component)  
 This function adds the component defined by the ```PgComponentType``` constructor to the framework. It takes a single argument.
@@ -52,18 +58,30 @@ This function adds the component defined by the ```PgComponentType``` constructo
 ### PgFrameworkLibSection(unique_id, display_name)
 This constructor creates a new object for addition to either the HTML snippet library or the actions panels. This object is created after individual components are defined using the ```PgComponentType``` constructor. It receives two arguments.
 
-  * __uniqueID__ An id that is unique within the plugin and should be prefixed with the plugin_id to prevent conflicts.
+  * __unique_id__ An id that is unique within the plugin and should be prefixed with the plugin_id to prevent conflicts.
 
   * __display_name__ A name that will be displayed as the title of the added section in the library or actions panel.
+  ```javascript
+  var pge_custom_lib_section = new PgFrameworkLibSection( 'pge_my_custom_section', 'My Custom Section');
+  ```
 
 ### setComponentTypes(components)
 This function takes an array of component names (defined using the ```PgComponentType``` constructor) to be added to the section object created with the ```PgFrameworkLibSection``` constructor.
+```javascript
+pge_custom_lib_section.setComponentTypes([my_custom_component_one, my_custom_component_two]);
+```
 
 ### addLibSection(section)
-This function adds the passed section name to the library panel of the framework.
+This function adds the passed section name to the library panel of the framework.  
+```javascript
+framework.addLibSection(pge_custom_lib_section);
+```
 
 ### addActionsSection(section)
-This function adds the passed section name to the Actions panel of the framework.
+This function adds the passed section name to the Actions panel of the framework.  
+```javascript
+framework.addActionsSection(pge_custom_action_section);
+```
 
 ---
 
